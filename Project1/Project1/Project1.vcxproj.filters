@@ -18,7 +18,7 @@
     <ClCompile Include="MyForm.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Calculations.cpp">
+    <ClCompile Include="Transform.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="Load.cpp">
@@ -32,10 +32,10 @@
     <ClInclude Include="MyForm.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Calculations.h">
+    <ClInclude Include="Transform.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Change.h">
+    <ClInclude Include="ChangeStruct.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Load.h">

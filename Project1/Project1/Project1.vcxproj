@@ -124,16 +124,16 @@
     <ClCompile Include="Draw.cpp" />
     <ClCompile Include="Load.cpp" />
     <ClCompile Include="MyForm.cpp" />
-    <ClCompile Include="Calculations.cpp" />
+    <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Change.h" />
+    <ClInclude Include="ChangeStruct.h" />
     <ClInclude Include="Draw.h" />
     <ClInclude Include="Load.h" />
     <ClInclude Include="MyForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
-    <ClInclude Include="Calculations.h" />
+    <ClInclude Include="Transform.h" />
     <ClInclude Include="FigureStruct.h" />
   </ItemGroup>
   <ItemGroup>

@@ -1,7 +1,6 @@
 #pragma once
-#include "Calculations.h"
-#include "Change.h"
-#include "Load.h"
+#include "Transform.h"
+#include "ChangeStruct.h"
 #include "Draw.h"
 
 namespace Project1 {
@@ -481,11 +480,24 @@ namespace Project1 {
 	}
 	private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) {
 	}
+	private: Void start_position()
+	{
+		RotationXTextBox->Text = "0";
+		RotationYTextBox->Text = "0";
+		RotationZTextBox->Text = "0";
+		ShiftXTextBox->Text = "0";
+		ShiftYTextBox->Text = "0";
+		ShiftZTextBox->Text = "0";
+		ScaleXTextBox->Text = "1";
+		ScaleYTextBox->Text = "1";
+		ScaleZTextBox->Text = "1";
+	}
 	private: System::Void ModelBox_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
-		change_t ch;
+		change_t ch{};
 		ch.mode = 4;
 		ch.data.loading.N = ModelBox->SelectedIndex;
 		fig = controller(fig, ch);
+		start_position();
 		this->Invalidate();
 	}
 	private: System::Void RotateButton_Click(System::Object^ sender, System::EventArgs^ e) {
@@ -547,6 +559,7 @@ namespace Project1 {
 		ch.mode = 4;
 		ch.data.loading.N = ModelBox->SelectedIndex;
 		fig = controller(fig, ch);
+		start_position();
 		this->Invalidate();
 	}
 };

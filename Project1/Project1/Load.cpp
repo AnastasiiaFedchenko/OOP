@@ -12,7 +12,7 @@ int load_point(FILE* f, point_t* p)
 	return rc;
 }
 
-figure_t* load_figure(change_t ch)
+figure_t* load_figure(const change_t ch)
 {
 	int rc = OK;
 	FILE* f = NULL;
@@ -23,7 +23,6 @@ figure_t* load_figure(change_t ch)
 		f = fopen("Icosahedron.txt", "r");
 	if (f != NULL)
 	{
-		printf("OPened file\n");
 		fig = (figure_t*)malloc(sizeof(figure_t));
 		if (fig != NULL)
 		{
@@ -55,4 +54,17 @@ figure_t* load_figure(change_t ch)
 	else
 		rc = ERROR;
 	return (rc == ERROR) ? NULL : fig;
+}
+
+void free_figure(figure *fig)
+{
+	if (fig != NULL)
+	{
+		if (fig->points != NULL)
+			free(fig->points);
+		if (fig->edges != NULL)
+			for (int i = 0; i < fig->n_edges; i++)
+				free(fig->edges[i]);
+		free(fig);
+	}
 }

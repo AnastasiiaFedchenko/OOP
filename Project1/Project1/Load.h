@@ -6,6 +6,7 @@
 #include <stdlib.h>
 
 #include "FigureStruct.h"
-#include "Change.h"
+#include "ChangeStruct.h"
 
-figure_t* load_figure(change_t ch);
+figure_t* load_figure(const change_t ch);
+void free_figure(figure* fig);
