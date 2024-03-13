@@ -1,32 +1,41 @@
 #include "Transform.h"
 
 // 1
-void rotation_x(const point_t O, point_t* p, const double angle_x)
+error_t rotation_x(const point_t *O, point_t* p, const double angle_x)
 {
+	if (O == NULL || p == NULL)
+		return ERR_INVALID_ARG;
 	point_t temp;
 	memcpy(&temp, p, sizeof(point_t));
-	temp.y = (int)(O.y + (p->y - O.y) * cos(angle_x) + (p->z - O.z) * sin(angle_x));
-	temp.z = (int)(O.z - ((p->y - O.y) * sin(angle_x)) + (p->z - O.z) * cos(angle_x));
+	temp.y = (int)(O->y + (p->y - O->y) * cos(angle_x) + (p->z - O->z) * sin(angle_x));
+	temp.z = (int)(O->z - ((p->y - O->y) * sin(angle_x)) + (p->z - O->z) * cos(angle_x));
 	p->y = temp.y;
 	p->z = temp.z;
+	return ERR_OK;
 }
-void rotation_y(const point_t O, point_t* p, const double angle_y)
+error_t rotation_y(const point_t *O, point_t* p, const double angle_y)
 {
+	if (O == NULL || p == NULL)
+		return ERR_INVALID_ARG;
 	point_t temp;
 	memcpy(&temp, p, sizeof(point_t));
-	temp.x = (int)(O.x + (p->x - O.x) * cos(angle_y) - (p->z - O.z) * sin(angle_y));
-	temp.z = (int)(O.z + ((p->x - O.x) * sin(angle_y)) + (p->z - O.z) * cos(angle_y));
+	temp.x = (int)(O->x + (p->x - O->x) * cos(angle_y) - (p->z - O->z) * sin(angle_y));
+	temp.z = (int)(O->z + ((p->x - O->x) * sin(angle_y)) + (p->z - O->z) * cos(angle_y));
 	p->x = temp.x;
 	p->z = temp.z;
+	return ERR_OK;
 }
-void rotation_z(const point_t O, point_t* p, const double angle_z)
+error_t rotation_z(const point_t *O, point_t* p, const double angle_z)
 {
+	if (O == NULL || p == NULL)
+		return ERR_INVALID_ARG;
 	point_t temp;
 	memcpy(&temp, p, sizeof(point_t));
-	temp.x = (int)(O.x + (p->x - O.x) * cos(angle_z) + (p->y - O.y) * sin(angle_z));
-	temp.y = (int)(O.y - ((p->x - O.x) * sin(angle_z)) + (p->y - O.y) * cos(angle_z));
+	temp.x = (int)(O->x + (p->x - O->x) * cos(angle_z) + (p->y - O->y) * sin(angle_z));
+	temp.y = (int)(O->y - ((p->x - O->x) * sin(angle_z)) + (p->y - O->y) * cos(angle_z));
 	p->x = temp.x;
 	p->y = temp.y;
+	return ERR_OK;
 }
 
 double to_radians(const double degrees)
@@ -34,82 +43,135 @@ double to_radians(const double degrees)
 	return (double)(degrees * M_PI) / 180;
 }
 
-void rotation(const figure_t *fig, const change_t ch)
+error_t rotation(const figure_t *fig, const rotate_t *ch)
 {
-	for (int i = 0; i < fig->n_points; i++)
+	if (fig == NULL || ch == NULL)
+		return ERR_INVALID_ARG;
+	error_t rc = ERR_OK;
+	point_t* temp = (point_t*)malloc(fig->n_points * sizeof(point_t));
+	if (temp == NULL)
+		rc = ERR_MEM;
+	else
+		memcpy(temp, fig->points, fig->n_points * sizeof(point_t));
+	for (int i = 0;rc == ERR_OK && i < fig->n_points; i++)
 	{
-		rotation_x(fig->O, &fig->points[i], to_radians(ch.data.rotation.X));
-		rotation_y(fig->O, &fig->points[i], to_radians(ch.data.rotation.Y));
-		rotation_z(fig->O, &fig->points[i], to_radians(ch.data.rotation.Z));
+		rc = rotation_x(&(fig->O), &temp[i], to_radians(ch->X));
+		if (rc == ERR_OK)
+			rc = rotation_y(&(fig->O), &temp[i], to_radians(ch->Y));
+		if (rc == ERR_OK)
+			rc = rotation_z(&(fig->O), &temp[i], to_radians(ch->Z));
 	}
+	if (rc == ERR_OK)
+		memcpy(fig->points, temp, fig->n_points * sizeof(point_t));
+	if (temp != NULL)
+		free(temp);
+	return rc;
 }
 
 // 2
-void shift_x(point_t* p, const int dx)
+error_t shift_x(point_t* p, const int dx)
 {
+	if (p == NULL)
+		return ERR_INVALID_ARG;
 	p->x += dx;
+	return ERR_OK;
 }
-void shift_y(point_t* p, const int dy)
+error_t shift_y(point_t* p, const int dy)
 {
+	if (p == NULL)
+		return ERR_INVALID_ARG;
 	p->y -= dy; // because coordinates are upside down
+	return ERR_OK;
 }
-void shift_z(point_t* p, const int dz)
+error_t shift_z(point_t* p, const int dz)
 {
+	if (p == NULL)
+		return ERR_INVALID_ARG;
 	p->z += dz;
+	return ERR_OK;
 }
 
-void shift(figure_t *fig, const change_t ch)
+error_t shift(figure_t *fig, const shift_t *ch)
 {
-	shift_x(&fig->O, ch.data.shifting.X);
-	shift_y(&fig->O, ch.data.shifting.Y);
-	shift_z(&fig->O, ch.data.shifting.Z);
-	for (int i = 0; i < fig->n_points; i++)
+	if (fig == NULL || ch == NULL)
+		return ERR_INVALID_ARG;
+	error_t rc = ERR_OK;
+	point_t temp_O = fig->O;
+	point_t* temp = (point_t*)malloc(fig->n_points * sizeof(point_t));
+	if (temp == NULL)
+		rc = ERR_MEM;
+	else
+		memcpy(temp, fig->points, fig->n_points * sizeof(point_t));
+	rc = shift_x(&temp_O, ch->X);
+	if (rc == ERR_OK)
+		rc = shift_y(&temp_O, ch->Y);
+	if (rc == ERR_OK)
+		rc = shift_z(&temp_O, ch->Z);
+	for (int i = 0; rc == ERR_OK && i < fig->n_points; i++)
 	{
-		shift_x(&fig->points[i], ch.data.shifting.X);
-		shift_y(&fig->points[i], ch.data.shifting.Y);
-		shift_z(&fig->points[i], ch.data.shifting.Z);
+		rc = shift_x(&temp[i], ch->X);
+		if (rc == ERR_OK)
+			rc = shift_y(&temp[i], ch->Y);
+		if (rc == ERR_OK)
+			rc = shift_z(&temp[i], ch->Z);
 	}
+	if (rc == ERR_OK)
+	{
+		fig->O = temp_O;
+		memcpy(fig->points, temp, fig->n_points * sizeof(point_t));
+	}
+	if (temp != NULL)
+		free(temp);
+	return rc;
 }
 
 // 3
-void scaling_x(const point_t O, point_t* p, double kx)
+error_t scaling_x(const point_t *O, point_t* p, double kx)
 {
-	p->x = (int)(O.x + kx * (p->x - O.x));
+	if (O == NULL || p == NULL)
+		return ERR_INVALID_ARG;
+	p->x = (int)(O->x + kx * (p->x - O->x));
+	return ERR_OK;
 }
 
-void scaling_y(const point_t O, point_t* p, double ky)
+error_t scaling_y(const point_t *O, point_t* p, double ky)
 {
-	p->y = (int)(O.y + ky * (p->y - O.y));
+	if (O == NULL || p == NULL)
+		return ERR_INVALID_ARG;
+	p->y = (int)(O->y + ky * (p->y - O->y));
+	return ERR_OK;
 }
-void scaling_z(const point_t O, point_t* p, double kz)
+error_t scaling_z(const point_t *O, point_t* p, double kz)
 {
-	p->z = (int)(O.z + kz * (p->z - O.z));
+	if (O == NULL || p == NULL)
+		return ERR_INVALID_ARG;
+	p->z = (int)(O->z + kz * (p->z - O->z));
+	return ERR_OK;
 }
 
-void scaling(const figure_t *fig, const change_t ch)
+error_t scaling(const figure_t *fig, const scale_t *ch)
 {
-	for (int i = 0; i < fig->n_points; i++)
+	if (fig == NULL || ch == NULL)
+		return ERR_INVALID_ARG;
+	error_t rc = ERR_OK;
+	point_t* temp = (point_t*)malloc(fig->n_points * sizeof(point_t));
+	if (temp == NULL)
+		rc = ERR_MEM;
+	else
+		memcpy(temp, fig->points, fig->n_points * sizeof(point_t));
+	for (int i = 0; rc == ERR_OK && i < fig->n_points; i++)
 	{
-		scaling_x(fig->O, &fig->points[i], ch.data.scaling.X);
-		scaling_y(fig->O, &fig->points[i], ch.data.scaling.Y);
-		scaling_z(fig->O, &fig->points[i], ch.data.scaling.Z);
+		rc = scaling_x(&(fig->O), &temp[i], ch->X);
+		if (rc == ERR_OK)
+			rc = scaling_y(&(fig->O), &temp[i], ch->Y);
+		if (rc == ERR_OK)
+			rc = scaling_z(&(fig->O), &temp[i], ch->Z);
 	}
+	if (rc == ERR_OK)
+		memcpy(fig->points, temp, fig->n_points * sizeof(point_t));
+	if (temp != NULL)
+		free(temp);
+	return rc;
 }
 
-figure_t *controller(figure_t *fig, const change_t ch)
-{
-	if (ch.mode == 1)
-		rotation(fig, ch);
-	else if (ch.mode == 2)
-		shift(fig, ch);
-	else if (ch.mode == 3)
-		scaling(fig, ch);
-	else if (ch.mode == 4)
-	{
-		free_figure(fig);
-		figure_t *new_fig = load_figure(ch);
-		return new_fig;
-	}
-	return NULL;
-}
 

@@ -1,10 +1,13 @@
 #pragma once
-#include "Transform.h"
+#include <string.h>
+#include "Controller.h"
 #include "ChangeStruct.h"
 #include "Draw.h"
+#include "Errors.h"
+#include <string>
 
 namespace Project1 {
-
+	using namespace std;
 	using namespace System;
 	using namespace System::ComponentModel;
 	using namespace System::Collections;
@@ -39,7 +42,7 @@ namespace Project1 {
 		}
 	private: System::Windows::Forms::GroupBox^ groupBox1;
 	protected:
-	private: System::Windows::Forms::Button^ button4;
+
 	private: System::Windows::Forms::GroupBox^ groupBox5;
 	private: System::Windows::Forms::Button^ ScaleButton;
 	private: System::Windows::Forms::TextBox^ ScaleZTextBox;
@@ -77,15 +80,17 @@ namespace Project1 {
 	private: System::Windows::Forms::Label^ label2;
 	private: System::Windows::Forms::Label^ label1;
 	private: System::Windows::Forms::GroupBox^ groupBox2;
-	private: System::Windows::Forms::ComboBox^ ModelBox;
+	private: System::ComponentModel::IContainer^ components;
+
 
 
 	private:
 		/// <summary>
 		/// Обязательная переменная конструктора.
 		/// </summary>
-		System::ComponentModel::Container ^components;
-		figure_t* fig = NULL;
+
+	private: System::Windows::Forms::Button^ button1;
+	private: System::Windows::Forms::OpenFileDialog^ openFileDialog1;
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -95,7 +100,6 @@ namespace Project1 {
 		void InitializeComponent(void)
 		{
 			this->groupBox1 = (gcnew System::Windows::Forms::GroupBox());
-			this->button4 = (gcnew System::Windows::Forms::Button());
 			this->groupBox5 = (gcnew System::Windows::Forms::GroupBox());
 			this->ScaleButton = (gcnew System::Windows::Forms::Button());
 			this->ScaleZTextBox = (gcnew System::Windows::Forms::TextBox());
@@ -121,7 +125,8 @@ namespace Project1 {
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->groupBox2 = (gcnew System::Windows::Forms::GroupBox());
-			this->ModelBox = (gcnew System::Windows::Forms::ComboBox());
+			this->button1 = (gcnew System::Windows::Forms::Button());
+			this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
 			this->groupBox1->SuspendLayout();
 			this->groupBox5->SuspendLayout();
 			this->groupBox4->SuspendLayout();
@@ -132,7 +137,6 @@ namespace Project1 {
 			// groupBox1
 			// 
 			this->groupBox1->BackColor = System::Drawing::SystemColors::Window;
-			this->groupBox1->Controls->Add(this->button4);
 			this->groupBox1->Controls->Add(this->groupBox5);
 			this->groupBox1->Controls->Add(this->groupBox4);
 			this->groupBox1->Controls->Add(this->groupBox3);
@@ -141,22 +145,10 @@ namespace Project1 {
 			this->groupBox1->ForeColor = System::Drawing::Color::YellowGreen;
 			this->groupBox1->Location = System::Drawing::Point(12, 12);
 			this->groupBox1->Name = L"groupBox1";
-			this->groupBox1->Size = System::Drawing::Size(499, 1131);
+			this->groupBox1->Size = System::Drawing::Size(499, 1054);
 			this->groupBox1->TabIndex = 0;
 			this->groupBox1->TabStop = false;
 			this->groupBox1->Text = L"Меню";
-			// 
-			// button4
-			// 
-			this->button4->Font = (gcnew System::Drawing::Font(L"Arial Black", 13.875F, System::Drawing::FontStyle::Bold));
-			this->button4->ForeColor = System::Drawing::Color::Black;
-			this->button4->Location = System::Drawing::Point(5, 1043);
-			this->button4->Name = L"button4";
-			this->button4->Size = System::Drawing::Size(488, 77);
-			this->button4->TabIndex = 1;
-			this->button4->Text = L"Сброс";
-			this->button4->UseVisualStyleBackColor = true;
-			this->button4->Click += gcnew System::EventHandler(this, &MyForm::button4_Click);
 			// 
 			// groupBox5
 			// 
@@ -422,7 +414,7 @@ namespace Project1 {
 			// groupBox2
 			// 
 			this->groupBox2->BackColor = System::Drawing::Color::PeachPuff;
-			this->groupBox2->Controls->Add(this->ModelBox);
+			this->groupBox2->Controls->Add(this->button1);
 			this->groupBox2->Font = (gcnew System::Drawing::Font(L"Arial", 13.875F));
 			this->groupBox2->Location = System::Drawing::Point(6, 67);
 			this->groupBox2->Name = L"groupBox2";
@@ -431,15 +423,20 @@ namespace Project1 {
 			this->groupBox2->TabStop = false;
 			this->groupBox2->Text = L"Модель";
 			// 
-			// ModelBox
+			// button1
 			// 
-			this->ModelBox->FormattingEnabled = true;
-			this->ModelBox->Items->AddRange(gcnew cli::array< System::Object^  >(2) { L"куб", L"икосаэдр" });
-			this->ModelBox->Location = System::Drawing::Point(6, 58);
-			this->ModelBox->Name = L"ModelBox";
-			this->ModelBox->Size = System::Drawing::Size(471, 50);
-			this->ModelBox->TabIndex = 1;
-			this->ModelBox->SelectedIndexChanged += gcnew System::EventHandler(this, &MyForm::ModelBox_SelectedIndexChanged);
+			this->button1->BackColor = System::Drawing::Color::Black;
+			this->button1->Location = System::Drawing::Point(12, 49);
+			this->button1->Name = L"button1";
+			this->button1->Size = System::Drawing::Size(464, 66);
+			this->button1->TabIndex = 1;
+			this->button1->Text = L"Выбрать файл";
+			this->button1->UseVisualStyleBackColor = false;
+			this->button1->Click += gcnew System::EventHandler(this, &MyForm::button1_Click);
+			// 
+			// openFileDialog1
+			// 
+			this->openFileDialog1->FileName = L"openFileDialog1";
 			// 
 			// MyForm
 			// 
@@ -470,13 +467,15 @@ namespace Project1 {
 		}
 #pragma endregion
 	private: System::Void MyForm_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
-		Graphics^ g = e->Graphics;
 		int offset_x = (this->ClientSize.Width - groupBox1->Width) / 2 + groupBox1->Width;
 		int offset_y = this->ClientSize.Height / 2;
-		//g->FillEllipse(Brushes::Red, offset_x- 10, offset_y - 10, 20, 20);
-		if (fig != NULL)
-			draw_figure(g, fig, offset_x, offset_y);
-		
+		change_t ch{};
+		draw_t ch_draw{};
+		ch.mode = DRAWING;
+		ch_draw.offset_x = offset_x;
+		ch_draw.offset_y = offset_y;
+		ch_draw.e = e;
+		error_t rc = controller(&ch, &ch_draw);
 	}
 	private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) {
 	}
@@ -492,75 +491,78 @@ namespace Project1 {
 		ScaleYTextBox->Text = "1";
 		ScaleZTextBox->Text = "1";
 	}
-	private: System::Void ModelBox_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
-		change_t ch{};
-		ch.mode = 4;
-		ch.data.loading.N = ModelBox->SelectedIndex;
-		fig = controller(fig, ch);
-		start_position();
-		this->Invalidate();
+	private: Void error_message(error_t rc)
+	{
+		if (rc != ERR_OK)
+		{
+			System::String^ message = error_controller(rc);
+			MessageBox::Show(message);
+		}
 	}
 	private: System::Void RotateButton_Click(System::Object^ sender, System::EventArgs^ e) {
-		change ch;
-		ch.mode = 1;
-		if (!int::TryParse(RotationXTextBox->Text, ch.data.rotation.X)) {
-			MessageBox::Show("Угол поворота вокруг оси X должен быть целым числом.");
-			return;
-		}
-		if (!int::TryParse(RotationYTextBox->Text, ch.data.rotation.Y)) {
-			MessageBox::Show("Угол поворота вокруг оси Y должен быть целым числом.");
-			return;
-		}
-		if (!int::TryParse(RotationZTextBox->Text, ch.data.rotation.Z)) {
-			MessageBox::Show("Угол поворота вокруг оси Z должен быть целым числом.");
-			return;
-		}
-		controller(fig, ch);
+		error_t rc = ERR_OK;
+		change_t ch{};
+		ch.mode = ROTATION;
+		if (!int::TryParse(RotationXTextBox->Text, ch.rotation.X))
+			rc = ERR_ANGLE;
+		if (!int::TryParse(RotationYTextBox->Text, ch.rotation.Y)) 
+			rc = ERR_ANGLE;
+		if (!int::TryParse(RotationZTextBox->Text, ch.rotation.Z)) 
+			rc = ERR_ANGLE;
+		if (rc == ERR_OK)
+			rc = controller(&ch, NULL);
+		error_message(rc);
 		this->Invalidate();
 	}
 	private: System::Void ShiftButton_Click(System::Object^ sender, System::EventArgs^ e) {
-		change ch;
-		ch.mode = 2;
-		if (!int::TryParse(ShiftXTextBox->Text, ch.data.shifting.X)) {
-			MessageBox::Show("Смещение по оси X должно быть целым числом.");
-			return;
-		}
-		if (!int::TryParse(ShiftYTextBox->Text, ch.data.shifting.Y)) {
-			MessageBox::Show("Смещение по оси Y должно быть целым числом.");
-			return;
-		}
-		if (!int::TryParse(ShiftZTextBox->Text, ch.data.shifting.Z)) {
-			MessageBox::Show("Смещение по оси Z должно быть целым числом.");
-			return;
-		}
-		controller(fig, ch);
+		error_t rc = ERR_OK;
+		change_t ch{};
+		ch.mode = SHIFTING;
+		if (!int::TryParse(ShiftXTextBox->Text, ch.shifting.X))
+			rc = ERR_D;
+		if (!int::TryParse(ShiftYTextBox->Text, ch.shifting.Y)) 
+			rc = ERR_D;
+		if (!int::TryParse(ShiftZTextBox->Text, ch.shifting.Z))
+			rc = ERR_D;
+		if (rc == ERR_OK)
+			rc = controller(&ch, NULL);
+		error_message(rc);
 		this->Invalidate();
 	}
 	private: System::Void ScaleButton_Click(System::Object^ sender, System::EventArgs^ e) {
-		change ch;
-		ch.mode = 3;
-		if (!double::TryParse(ScaleXTextBox->Text, ch.data.scaling.X)) {
-			MessageBox::Show("Коэфициент масштабирования по оси X должно быть вещественным числом (через запятую).");
-			return;
-		}
-		if (!double::TryParse(ScaleYTextBox->Text, ch.data.scaling.Y)) {
-			MessageBox::Show("Коэфициент масштабирования по оси Y должно быть вещественным числом (через запятую).");
-			return;
-		}
-		if (!double::TryParse(ScaleZTextBox->Text, ch.data.scaling.Z)) {
-			MessageBox::Show("Коэфициент масштабирования по оси Z должно быть вещественным числом (через запятую).");
-			return;
-		}
-		controller(fig, ch);
+		error_t rc = ERR_OK;
+		change ch{};
+		ch.mode = SCALING;
+		if (!double::TryParse(ScaleXTextBox->Text, ch.scaling.X))
+			rc = ERR_K;
+		if (!double::TryParse(ScaleYTextBox->Text, ch.scaling.Y)) 
+			rc = ERR_K;
+		if (!double::TryParse(ScaleZTextBox->Text, ch.scaling.Z)) 
+			rc = ERR_K;
+		if (rc == ERR_OK)
+			rc = controller(&ch, NULL);
+		error_message(rc);
 		this->Invalidate();
 	}
-	private: System::Void button4_Click(System::Object^ sender, System::EventArgs^ e) {
-		change_t ch;
-		ch.mode = 4;
-		ch.data.loading.N = ModelBox->SelectedIndex;
-		fig = controller(fig, ch);
-		start_position();
-		this->Invalidate();
+
+	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
+		this->openFileDialog1->ShowDialog();
+		String^ file_path = this->openFileDialog1->FileName;
+		file_path = file_path->Replace("\\", "/");
+		char* c_path = (char*)(void*)System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(file_path);
+
+		change_t ch{};
+		ch.mode = LOADING;
+		ch.loading.path = c_path;
+		error_t rc = controller(&ch, NULL);
+		error_message(rc);
+		if (rc == ERR_OK)
+		{
+			start_position();
+			this->Invalidate();
+		}
+		if (c_path)
+			System::Runtime::InteropServices::Marshal::FreeHGlobal((IntPtr)c_path);
 	}
 };
 }

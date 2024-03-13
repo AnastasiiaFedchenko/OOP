@@ -7,6 +7,7 @@
 
 #include "FigureStruct.h"
 #include "ChangeStruct.h"
+#include "Errors.h"
 
-figure_t* load_figure(const change_t ch);
+error_t load_figure(figure_t* fig, const load_t *ch);
 void free_figure(figure* fig);

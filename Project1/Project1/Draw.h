@@ -1,6 +1,9 @@
 #pragma once
+#include <cstddef>
 
 #include "FigureStruct.h"
+#include "ChangeStruct.h"
+#include "Errors.h"
 using namespace System::Drawing;
 
-void draw_figure(Graphics^ g, const figure_t* fig, const int offset_x, const int offset_y);
+error_t draw_figure(const figure_t* fig, const draw_t *ch);

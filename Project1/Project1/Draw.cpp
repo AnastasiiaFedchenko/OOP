@@ -1,18 +1,19 @@
 #include "Draw.h"
 
-void draw_line(Graphics^ g, Pen^ pen, const figure_t* fig, const int i, const int offset_x, const int offset_y)
+error_t draw_figure(const figure_t* fig, const draw_t *ch)
 {
-	int t1 = fig->edges[i][0], t2 = fig->edges[i][1];
-	g->DrawLine(pen, fig->points[t1].x + offset_x, fig->points[t1].y + offset_y,
-			fig->points[t2].x + offset_x, fig->points[t2].y + offset_y);
-}
-
-void draw_figure(Graphics^ g, const figure_t* fig, const int offset_x, const int offset_y)
-{
+	if (fig == NULL || ch == NULL)
+		return ERR_INVALID_ARG;
+	error_t rc = ERR_OK;
+	int i1, i2;
 	Pen^ pen = gcnew Pen(Color::Black);
+	Graphics^ g = ch->e->Graphics;
 	pen->Width = 3;
 	for (int i = 0; i < fig->n_edges; i++)
 	{
-		draw_line(g, pen, fig, i, offset_x, offset_y);
+		i1 = fig->edges[i].i1, i2 = fig->edges[i].i2;
+		g->DrawLine(pen, fig->points[i1].x + ch->offset_x, fig->points[i1].y + ch->offset_y,
+			fig->points[i2].x + ch->offset_x, fig->points[i2].y + ch->offset_y);
 	}
+	return rc;
 }

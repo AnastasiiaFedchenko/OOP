@@ -83,7 +83,8 @@
     <Link>
       <AdditionalDependencies />
       <SubSystem>Windows</SubSystem>
-      <EntryPointSymbol>main</EntryPointSymbol>
+      <EntryPointSymbol>
+      </EntryPointSymbol>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -121,14 +122,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Controller.cpp" />
     <ClCompile Include="Draw.cpp" />
+    <ClCompile Include="Errors.cpp" />
+    <ClCompile Include="FigureStruct.cpp" />
     <ClCompile Include="Load.cpp" />
     <ClCompile Include="MyForm.cpp" />
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChangeStruct.h" />
+    <ClInclude Include="Controller.h" />
     <ClInclude Include="Draw.h" />
+    <ClInclude Include="Errors.h" />
     <ClInclude Include="Load.h" />
     <ClInclude Include="MyForm.h">
       <FileType>CppForm</FileType>
