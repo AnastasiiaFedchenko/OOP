@@ -29,4 +29,5 @@ struct figure
 
 figure_t init_figure();
 void copy_figure(const figure_t* sc, figure_t* ds);
+void copy_point(const point_t* sc, point_t* ds);
 void free_figure(figure_t* fig);

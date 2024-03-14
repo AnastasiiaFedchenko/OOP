@@ -6,7 +6,7 @@ error_t rotation_x(const point_t *O, point_t* p, const double angle_x)
 	if (O == NULL || p == NULL)
 		return ERR_INVALID_ARG;
 	point_t temp;
-	memcpy(&temp, p, sizeof(point_t));
+	copy_point(p, &temp);
 	temp.y = (int)(O->y + (p->y - O->y) * cos(angle_x) + (p->z - O->z) * sin(angle_x));
 	temp.z = (int)(O->z - ((p->y - O->y) * sin(angle_x)) + (p->z - O->z) * cos(angle_x));
 	p->y = temp.y;
@@ -18,7 +18,7 @@ error_t rotation_y(const point_t *O, point_t* p, const double angle_y)
 	if (O == NULL || p == NULL)
 		return ERR_INVALID_ARG;
 	point_t temp;
-	memcpy(&temp, p, sizeof(point_t));
+	copy_point(p, &temp);
 	temp.x = (int)(O->x + (p->x - O->x) * cos(angle_y) - (p->z - O->z) * sin(angle_y));
 	temp.z = (int)(O->z + ((p->x - O->x) * sin(angle_y)) + (p->z - O->z) * cos(angle_y));
 	p->x = temp.x;
@@ -30,7 +30,7 @@ error_t rotation_z(const point_t *O, point_t* p, const double angle_z)
 	if (O == NULL || p == NULL)
 		return ERR_INVALID_ARG;
 	point_t temp;
-	memcpy(&temp, p, sizeof(point_t));
+	copy_point(p, &temp);
 	temp.x = (int)(O->x + (p->x - O->x) * cos(angle_z) + (p->y - O->y) * sin(angle_z));
 	temp.y = (int)(O->y - ((p->x - O->x) * sin(angle_z)) + (p->y - O->y) * cos(angle_z));
 	p->x = temp.x;

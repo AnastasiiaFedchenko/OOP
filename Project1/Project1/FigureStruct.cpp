@@ -22,6 +22,13 @@ void copy_figure(const figure_t *sc, figure_t *ds)
 	ds->edges = sc->edges;
 }
 
+void copy_point(const point_t *sc, point_t *ds)
+{
+	ds->x = sc->x;
+	ds->y = sc->y;
+	ds->z = sc->z;
+}
+
 void free_figure(figure_t *fig)
 {
 	if (fig != NULL)
