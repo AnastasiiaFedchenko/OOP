@@ -10,4 +10,3 @@
 #include "Errors.h"
 
 error_t read_file(figure_t* fig, const load_t* ch);
-void free_figure(figure* fig);

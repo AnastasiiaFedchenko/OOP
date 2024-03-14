@@ -13,20 +13,26 @@ figure_t init_figure()
 	return fig;
 }
 
-void copy_figure(const figure_t *sc, figure_t *ds)
+error_t copy_figure(const figure_t *sc, figure_t *ds)
 {
+	if (sc == NULL || ds == NULL)
+		return ERR_INVALID_ARG;
 	ds->O = sc->O;
 	ds->n_points = sc->n_points;
 	ds->n_edges = sc->n_edges;
 	ds->points = sc->points;
 	ds->edges = sc->edges;
+	return ERR_OK;
 }
 
-void copy_point(const point_t *sc, point_t *ds)
+error_t copy_point(const point_t *sc, point_t *ds)
 {
+	if (sc == NULL || ds == NULL)
+		return ERR_INVALID_ARG;
 	ds->x = sc->x;
 	ds->y = sc->y;
 	ds->z = sc->z;
+	return ERR_OK;
 }
 
 void free_figure(figure_t *fig)

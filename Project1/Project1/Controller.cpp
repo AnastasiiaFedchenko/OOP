@@ -17,12 +17,7 @@ error_t controller(const change_t* ch, const draw_t* ch_draw)
 	else if (rc == ERR_OK && ch->mode == SAVING)
 		rc = write_file(&fig, &(ch->loading));
 	else if (rc == ERR_OK && ch->mode == DRAWING)
-	{
-		if (ch_draw == NULL)
-			rc = ERR_INVALID_ARG;
-		else
-			rc = draw_figure(&fig, ch_draw);
-	}
+		rc = draw_figure(&fig, ch_draw);
 	else if (rc == ERR_OK)
 		rc = ERR_INVALID_ARG;
 	return rc;
