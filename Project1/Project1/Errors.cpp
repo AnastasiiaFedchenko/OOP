@@ -22,6 +22,6 @@ System::String^ error_controller(error_t rc)
 	else if (rc == ERR_UNKNOWN)
 		str = "Неизвестная ошибка.";
 	else
-		str = "хз";
+		str = "Ошибка)";
 	return str;
 }

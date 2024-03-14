@@ -5,6 +5,7 @@
 #define SCALING 3
 #define LOADING 4
 #define DRAWING 5
+#define SAVING 6
 typedef struct rotate rotate_t;
 typedef struct shift shift_t;
 typedef struct scale scale_t;

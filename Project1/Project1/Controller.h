@@ -3,6 +3,7 @@
 #include "ChangeStruct.h"
 #include "FigureStruct.h"
 #include "Load.h"
+#include "Write.h"
 #include "Draw.h"
 #include "Errors.h"
 #include "Transform.h"

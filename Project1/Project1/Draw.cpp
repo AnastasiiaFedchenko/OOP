@@ -4,6 +4,8 @@ error_t draw_figure(const figure_t* fig, const draw_t *ch)
 {
 	if (fig == NULL || ch == NULL)
 		return ERR_INVALID_ARG;
+	if (fig->points == NULL || fig->edges == NULL)
+		return ERR_NO_OBJECT;
 	error_t rc = ERR_OK;
 	int i1, i2;
 	Pen^ pen = gcnew Pen(Color::Black);

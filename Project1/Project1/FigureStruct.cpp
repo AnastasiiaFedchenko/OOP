@@ -2,7 +2,7 @@
 
 figure_t init_figure()
 {
-	figure_t fig;
+	figure_t fig{};
 	fig.O.x = 0;
 	fig.O.y = 0;
 	fig.O.z = 0;
@@ -22,7 +22,7 @@ void copy_figure(const figure_t *sc, figure_t *ds)
 	ds->edges = sc->edges;
 }
 
-void free_figure(figure* fig)
+void free_figure(figure_t *fig)
 {
 	if (fig != NULL)
 	{

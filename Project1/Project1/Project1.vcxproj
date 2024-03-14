@@ -129,6 +129,7 @@
     <ClCompile Include="Load.cpp" />
     <ClCompile Include="MyForm.cpp" />
     <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="Write.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChangeStruct.h" />
@@ -141,15 +142,12 @@
     </ClInclude>
     <ClInclude Include="Transform.h" />
     <ClInclude Include="FigureStruct.h" />
+    <ClInclude Include="Write.h" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MyForm.resx">
       <DependentUpon>MyForm.h</DependentUpon>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="Cube.txt" />
-    <Text Include="Icosahedron.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

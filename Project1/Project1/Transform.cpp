@@ -47,6 +47,8 @@ error_t rotation(const figure_t *fig, const rotate_t *ch)
 {
 	if (fig == NULL || ch == NULL)
 		return ERR_INVALID_ARG;
+	if (fig->points == NULL || fig->edges == NULL)
+		return ERR_NO_OBJECT;
 	error_t rc = ERR_OK;
 	point_t* temp = (point_t*)malloc(fig->n_points * sizeof(point_t));
 	if (temp == NULL)
@@ -95,6 +97,8 @@ error_t shift(figure_t *fig, const shift_t *ch)
 {
 	if (fig == NULL || ch == NULL)
 		return ERR_INVALID_ARG;
+	if (fig->points == NULL || fig->edges == NULL)
+		return ERR_NO_OBJECT;
 	error_t rc = ERR_OK;
 	point_t temp_O = fig->O;
 	point_t* temp = (point_t*)malloc(fig->n_points * sizeof(point_t));
@@ -153,6 +157,8 @@ error_t scaling(const figure_t *fig, const scale_t *ch)
 {
 	if (fig == NULL || ch == NULL)
 		return ERR_INVALID_ARG;
+	if (fig->points == NULL || fig->edges == NULL)
+		return ERR_NO_OBJECT;
 	error_t rc = ERR_OK;
 	point_t* temp = (point_t*)malloc(fig->n_points * sizeof(point_t));
 	if (temp == NULL)

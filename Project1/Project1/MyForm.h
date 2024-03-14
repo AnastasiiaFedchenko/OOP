@@ -90,6 +90,12 @@ namespace Project1 {
 		/// </summary>
 
 	private: System::Windows::Forms::Button^ button1;
+	private: System::Windows::Forms::Label^ label10;
+	private: System::Windows::Forms::Button^ button2;
+	private: System::Windows::Forms::Label^ label11;
+	private: System::Windows::Forms::SaveFileDialog^ saveFileDialog1;
+
+
 	private: System::Windows::Forms::OpenFileDialog^ openFileDialog1;
 
 #pragma region Windows Form Designer generated code
@@ -125,8 +131,12 @@ namespace Project1 {
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->groupBox2 = (gcnew System::Windows::Forms::GroupBox());
+			this->button2 = (gcnew System::Windows::Forms::Button());
+			this->label11 = (gcnew System::Windows::Forms::Label());
+			this->label10 = (gcnew System::Windows::Forms::Label());
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
+			this->saveFileDialog1 = (gcnew System::Windows::Forms::SaveFileDialog());
 			this->groupBox1->SuspendLayout();
 			this->groupBox5->SuspendLayout();
 			this->groupBox4->SuspendLayout();
@@ -145,7 +155,7 @@ namespace Project1 {
 			this->groupBox1->ForeColor = System::Drawing::Color::YellowGreen;
 			this->groupBox1->Location = System::Drawing::Point(12, 12);
 			this->groupBox1->Name = L"groupBox1";
-			this->groupBox1->Size = System::Drawing::Size(499, 1054);
+			this->groupBox1->Size = System::Drawing::Size(499, 1210);
 			this->groupBox1->TabIndex = 0;
 			this->groupBox1->TabStop = false;
 			this->groupBox1->Text = L"Меню";
@@ -161,9 +171,9 @@ namespace Project1 {
 			this->groupBox5->Controls->Add(this->label8);
 			this->groupBox5->Controls->Add(this->label9);
 			this->groupBox5->Font = (gcnew System::Drawing::Font(L"Arial", 13.875F));
-			this->groupBox5->Location = System::Drawing::Point(5, 763);
+			this->groupBox5->Location = System::Drawing::Point(6, 936);
 			this->groupBox5->Name = L"groupBox5";
-			this->groupBox5->Size = System::Drawing::Size(488, 274);
+			this->groupBox5->Size = System::Drawing::Size(488, 265);
 			this->groupBox5->TabIndex = 3;
 			this->groupBox5->TabStop = false;
 			this->groupBox5->Text = L"Масштабирование";
@@ -248,7 +258,7 @@ namespace Project1 {
 			this->groupBox4->Controls->Add(this->label5);
 			this->groupBox4->Controls->Add(this->label6);
 			this->groupBox4->Font = (gcnew System::Drawing::Font(L"Arial", 13.875F));
-			this->groupBox4->Location = System::Drawing::Point(5, 483);
+			this->groupBox4->Location = System::Drawing::Point(5, 656);
 			this->groupBox4->Name = L"groupBox4";
 			this->groupBox4->Size = System::Drawing::Size(488, 274);
 			this->groupBox4->TabIndex = 2;
@@ -335,7 +345,7 @@ namespace Project1 {
 			this->groupBox3->Controls->Add(this->label2);
 			this->groupBox3->Controls->Add(this->label1);
 			this->groupBox3->Font = (gcnew System::Drawing::Font(L"Arial", 13.875F));
-			this->groupBox3->Location = System::Drawing::Point(6, 203);
+			this->groupBox3->Location = System::Drawing::Point(5, 376);
 			this->groupBox3->Name = L"groupBox3";
 			this->groupBox3->Size = System::Drawing::Size(488, 274);
 			this->groupBox3->TabIndex = 1;
@@ -414,19 +424,57 @@ namespace Project1 {
 			// groupBox2
 			// 
 			this->groupBox2->BackColor = System::Drawing::Color::PeachPuff;
+			this->groupBox2->Controls->Add(this->button2);
+			this->groupBox2->Controls->Add(this->label11);
+			this->groupBox2->Controls->Add(this->label10);
 			this->groupBox2->Controls->Add(this->button1);
 			this->groupBox2->Font = (gcnew System::Drawing::Font(L"Arial", 13.875F));
 			this->groupBox2->Location = System::Drawing::Point(6, 67);
 			this->groupBox2->Name = L"groupBox2";
-			this->groupBox2->Size = System::Drawing::Size(488, 130);
+			this->groupBox2->Size = System::Drawing::Size(488, 303);
 			this->groupBox2->TabIndex = 1;
 			this->groupBox2->TabStop = false;
 			this->groupBox2->Text = L"Модель";
 			// 
+			// button2
+			// 
+			this->button2->BackColor = System::Drawing::Color::Black;
+			this->button2->Location = System::Drawing::Point(11, 220);
+			this->button2->Name = L"button2";
+			this->button2->Size = System::Drawing::Size(464, 66);
+			this->button2->TabIndex = 3;
+			this->button2->Text = L"Выбрать файл";
+			this->button2->UseVisualStyleBackColor = false;
+			this->button2->Click += gcnew System::EventHandler(this, &MyForm::button2_Click);
+			// 
+			// label11
+			// 
+			this->label11->AutoSize = true;
+			this->label11->Font = (gcnew System::Drawing::Font(L"Arial", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->label11->ForeColor = System::Drawing::Color::Black;
+			this->label11->Location = System::Drawing::Point(11, 181);
+			this->label11->Name = L"label11";
+			this->label11->Size = System::Drawing::Size(180, 36);
+			this->label11->TabIndex = 2;
+			this->label11->Text = L"Сохранить:";
+			// 
+			// label10
+			// 
+			this->label10->AutoSize = true;
+			this->label10->Font = (gcnew System::Drawing::Font(L"Arial", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->label10->ForeColor = System::Drawing::Color::Black;
+			this->label10->Location = System::Drawing::Point(11, 73);
+			this->label10->Name = L"label10";
+			this->label10->Size = System::Drawing::Size(169, 36);
+			this->label10->TabIndex = 1;
+			this->label10->Text = L"Загрузить:";
+			// 
 			// button1
 			// 
 			this->button1->BackColor = System::Drawing::Color::Black;
-			this->button1->Location = System::Drawing::Point(12, 49);
+			this->button1->Location = System::Drawing::Point(6, 112);
 			this->button1->Name = L"button1";
 			this->button1->Size = System::Drawing::Size(464, 66);
 			this->button1->TabIndex = 1;
@@ -462,6 +510,7 @@ namespace Project1 {
 			this->groupBox3->ResumeLayout(false);
 			this->groupBox3->PerformLayout();
 			this->groupBox2->ResumeLayout(false);
+			this->groupBox2->PerformLayout();
 			this->ResumeLayout(false);
 
 		}
@@ -553,6 +602,26 @@ namespace Project1 {
 
 		change_t ch{};
 		ch.mode = LOADING;
+		ch.loading.path = c_path;
+		error_t rc = controller(&ch, NULL);
+		error_message(rc);
+		if (rc == ERR_OK)
+		{
+			start_position();
+			this->Invalidate();
+		}
+		if (c_path)
+			System::Runtime::InteropServices::Marshal::FreeHGlobal((IntPtr)c_path);
+	}
+
+	private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) {
+		this->saveFileDialog1->ShowDialog();
+		String^ file_path = this->saveFileDialog1->FileName;
+		file_path = file_path->Replace("\\", "/");
+		char* c_path = (char*)(void*)System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(file_path);
+
+		change_t ch{};
+		ch.mode = SAVING;
 		ch.loading.path = c_path;
 		error_t rc = controller(&ch, NULL);
 		error_message(rc);
