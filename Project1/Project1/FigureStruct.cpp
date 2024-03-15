@@ -6,10 +6,10 @@ figure_t init_figure()
 	fig.O.x = 0;
 	fig.O.y = 0;
 	fig.O.z = 0;
-	fig.n_points = 0;
-	fig.points = NULL;
-	fig.n_edges = 0;
-	fig.edges = NULL;
+	fig.p.n_points = 0;
+	fig.p.points = NULL;
+	fig.e.n_edges = 0;
+	fig.e.edges = NULL;
 	return fig;
 }
 
@@ -18,10 +18,10 @@ error_t copy_figure(const figure_t *sc, figure_t *ds)
 	if (sc == NULL || ds == NULL)
 		return ERR_INVALID_ARG;
 	ds->O = sc->O;
-	ds->n_points = sc->n_points;
-	ds->n_edges = sc->n_edges;
-	ds->points = sc->points;
-	ds->edges = sc->edges;
+	ds->p.n_points = sc->p.n_points;
+	ds->e.n_edges = sc->e.n_edges;
+	ds->p.points = sc->p.points;
+	ds->e.edges = sc->e.edges;
 	return ERR_OK;
 }
 
@@ -43,13 +43,23 @@ error_t copy_points(point_t* sc, point_t* ds, int n)
 	return rc;
 }
 
+void free_points(point_arr_t *p)
+{
+	if (p->points != NULL)
+		free(p->points);
+}
+
+void free_edges(edge_arr_t* e)
+{
+	if (e->edges != NULL)
+		free(e->edges);
+}
+
 void free_figure(figure_t *fig)
 {
 	if (fig != NULL)
 	{
-		if (fig->points != NULL)
-			free(fig->points);
-		if (fig->edges != NULL)
-			free(fig->edges);
+		free_points(&(fig->p));
+		free_edges(&(fig->e));
 	}
 }

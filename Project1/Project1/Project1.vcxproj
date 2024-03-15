@@ -127,6 +127,8 @@
     <ClCompile Include="Errors.cpp" />
     <ClCompile Include="FigureStruct.cpp" />
     <ClCompile Include="Load.cpp" />
+    <ClCompile Include="LoadEdges.cpp" />
+    <ClCompile Include="LoadPoints.cpp" />
     <ClCompile Include="MyForm.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Write.cpp" />
@@ -137,6 +139,8 @@
     <ClInclude Include="Draw.h" />
     <ClInclude Include="Errors.h" />
     <ClInclude Include="Load.h" />
+    <ClInclude Include="LoadEdges.h" />
+    <ClInclude Include="LoadPoints.h" />
     <ClInclude Include="MyForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
