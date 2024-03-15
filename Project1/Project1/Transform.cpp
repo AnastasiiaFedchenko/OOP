@@ -56,6 +56,19 @@ double to_radians(const double degrees)
 	return (double)(degrees * M_PI) / 180;
 }
 
+error_t rotate_point(const point_t *O, point_t *p, const rotate_t* ch)
+{
+	if (O == NULL || p == NULL || ch == NULL)
+		return ERR_INVALID_ARG;
+	error_t rc = ERR_OK;
+	rc = rotation_x(O, p, to_radians(ch->X));
+	if (rc == ERR_OK)
+		rc = rotation_y(O, p, to_radians(ch->Y));
+	if (rc == ERR_OK)
+		rc = rotation_z(O, p, to_radians(ch->Z));
+	return rc;
+}
+
 error_t rotation(figure_t *fig, const rotate_t *ch)
 {
 	if (fig == NULL || ch == NULL)
@@ -68,13 +81,7 @@ error_t rotation(figure_t *fig, const rotate_t *ch)
 	if (rc == ERR_OK)
 		rc = copy_points(fig->points, temp, fig->n_points);
 	for (int i = 0;rc == ERR_OK && i < fig->n_points; i++)
-	{
-		rc = rotation_x(&(fig->O), &temp[i], to_radians(ch->X));
-		if (rc == ERR_OK)
-			rc = rotation_y(&(fig->O), &temp[i], to_radians(ch->Y));
-		if (rc == ERR_OK)
-			rc = rotation_z(&(fig->O), &temp[i], to_radians(ch->Z));
-	}
+		rc = rotate_point(&(fig->O), &(temp[i]), ch);
 	if (rc == ERR_OK)
 		rc = copy_points(temp, fig->points, fig->n_points);
 	if (temp != NULL)
@@ -105,6 +112,19 @@ error_t shift_z(point_t* p, const int dz)
 	return ERR_OK;
 }
 
+error_t shift_point(point_t *p, const shift_t* ch)
+{
+	if (p == NULL || ch == NULL)
+		return ERR_INVALID_ARG;
+	error_t rc = ERR_OK;
+	rc = shift_x(p, ch->X);
+	if (rc == ERR_OK)
+		rc = shift_y(p, ch->Y);
+	if (rc == ERR_OK)
+		rc = shift_z(p, ch->Z);
+	return rc;
+}
+
 error_t shift(figure_t *fig, const shift_t *ch)
 {
 	if (fig == NULL || ch == NULL)
@@ -117,19 +137,9 @@ error_t shift(figure_t *fig, const shift_t *ch)
 	rc = alloca_points(&temp, &(fig->n_points));
 	if (rc == ERR_OK)
 		rc = copy_points(fig->points, temp, fig->n_points);
-	rc = shift_x(&temp_O, ch->X);
-	if (rc == ERR_OK)
-		rc = shift_y(&temp_O, ch->Y);
-	if (rc == ERR_OK)
-		rc = shift_z(&temp_O, ch->Z);
+	rc = shift_point(&temp_O, ch);
 	for (int i = 0; rc == ERR_OK && i < fig->n_points; i++)
-	{
-		rc = shift_x(&temp[i], ch->X);
-		if (rc == ERR_OK)
-			rc = shift_y(&temp[i], ch->Y);
-		if (rc == ERR_OK)
-			rc = shift_z(&temp[i], ch->Z);
-	}
+		rc = shift_point(&temp[i], ch);
 	if (rc == ERR_OK)
 	{
 		fig->O = temp_O;
@@ -163,6 +173,19 @@ error_t scaling_z(const point_t *O, point_t* p, double kz)
 	return ERR_OK;
 }
 
+error_t scaling_point(const point_t* O, point_t* p, const scale_t* ch)
+{
+	if (O == NULL || p == NULL || ch == NULL)
+		return ERR_INVALID_ARG;
+	error_t rc = ERR_OK;
+	rc = scaling_x(O, p, ch->X);
+	if (rc == ERR_OK)
+		rc = scaling_y(O, p, ch->Y);
+	if (rc == ERR_OK)
+		rc = scaling_z(O, p, ch->Z);
+	return rc;
+}
+
 error_t scaling(figure_t *fig, const scale_t *ch)
 {
 	if (fig == NULL || ch == NULL)
@@ -175,13 +198,7 @@ error_t scaling(figure_t *fig, const scale_t *ch)
 	if (rc == ERR_OK)
 		rc = copy_points(fig->points, temp, fig->n_points);
 	for (int i = 0; rc == ERR_OK && i < fig->n_points; i++)
-	{
-		rc = scaling_x(&(fig->O), &temp[i], ch->X);
-		if (rc == ERR_OK)
-			rc = scaling_y(&(fig->O), &temp[i], ch->Y);
-		if (rc == ERR_OK)
-			rc = scaling_z(&(fig->O), &temp[i], ch->Z);
-	}
+		rc = scaling_point(&(fig->O), &(temp[i]), ch);
 	if (rc == ERR_OK)
 		rc = copy_points(temp, fig->points, fig->n_points);
 	if (temp != NULL)
