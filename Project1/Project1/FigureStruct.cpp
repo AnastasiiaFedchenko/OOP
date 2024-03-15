@@ -35,6 +35,14 @@ error_t copy_point(const point_t *sc, point_t *ds)
 	return ERR_OK;
 }
 
+error_t copy_points(point_t* sc, point_t* ds, int n)
+{
+	error_t rc = ERR_OK;
+	for (int i = 0; i < n; i++)
+		rc = copy_point(&(sc[i]), &(ds[i]));
+	return rc;
+}
+
 void free_figure(figure_t *fig)
 {
 	if (fig != NULL)

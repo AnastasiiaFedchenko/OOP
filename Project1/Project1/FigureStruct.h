@@ -31,4 +31,5 @@ struct figure
 figure_t init_figure();
 error_t copy_figure(const figure_t* sc, figure_t* ds);
 error_t copy_point(const point_t* sc, point_t* ds);
+error_t copy_points(point_t* sc, point_t* ds, int n);
 void free_figure(figure_t* fig);

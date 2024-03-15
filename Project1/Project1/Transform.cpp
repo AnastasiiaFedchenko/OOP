@@ -66,7 +66,7 @@ error_t rotation(figure_t *fig, const rotate_t *ch)
 	point_t* temp;
 	rc = alloca_points(&temp, &(fig->n_points));
 	if (rc == ERR_OK)
-		memcpy(temp, fig->points, fig->n_points * sizeof(point_t));
+		rc = copy_points(fig->points, temp, fig->n_points);
 	for (int i = 0;rc == ERR_OK && i < fig->n_points; i++)
 	{
 		rc = rotation_x(&(fig->O), &temp[i], to_radians(ch->X));
@@ -76,7 +76,7 @@ error_t rotation(figure_t *fig, const rotate_t *ch)
 			rc = rotation_z(&(fig->O), &temp[i], to_radians(ch->Z));
 	}
 	if (rc == ERR_OK)
-		memcpy(fig->points, temp, fig->n_points * sizeof(point_t));
+		rc = copy_points(temp, fig->points, fig->n_points);
 	if (temp != NULL)
 		free(temp);
 	return rc;
@@ -116,7 +116,7 @@ error_t shift(figure_t *fig, const shift_t *ch)
 	point_t* temp;
 	rc = alloca_points(&temp, &(fig->n_points));
 	if (rc == ERR_OK)
-		memcpy(temp, fig->points, fig->n_points * sizeof(point_t));
+		rc = copy_points(fig->points, temp, fig->n_points);
 	rc = shift_x(&temp_O, ch->X);
 	if (rc == ERR_OK)
 		rc = shift_y(&temp_O, ch->Y);
@@ -133,7 +133,7 @@ error_t shift(figure_t *fig, const shift_t *ch)
 	if (rc == ERR_OK)
 	{
 		fig->O = temp_O;
-		memcpy(fig->points, temp, fig->n_points * sizeof(point_t));
+		rc = copy_points(temp, fig->points, fig->n_points);
 	}
 	if (temp != NULL)
 		free(temp);
@@ -148,7 +148,6 @@ error_t scaling_x(const point_t *O, point_t* p, double kx)
 	p->x = (int)(O->x + kx * (p->x - O->x));
 	return ERR_OK;
 }
-
 error_t scaling_y(const point_t *O, point_t* p, double ky)
 {
 	if (O == NULL || p == NULL)
@@ -174,7 +173,7 @@ error_t scaling(figure_t *fig, const scale_t *ch)
 	point_t* temp;
 	rc = alloca_points(&temp, &(fig->n_points));
 	if (rc == ERR_OK)
-		memcpy(temp, fig->points, fig->n_points * sizeof(point_t));
+		rc = copy_points(fig->points, temp, fig->n_points);
 	for (int i = 0; rc == ERR_OK && i < fig->n_points; i++)
 	{
 		rc = scaling_x(&(fig->O), &temp[i], ch->X);
@@ -184,7 +183,7 @@ error_t scaling(figure_t *fig, const scale_t *ch)
 			rc = scaling_z(&(fig->O), &temp[i], ch->Z);
 	}
 	if (rc == ERR_OK)
-		memcpy(fig->points, temp, fig->n_points * sizeof(point_t));
+		rc = copy_points(temp, fig->points, fig->n_points);
 	if (temp != NULL)
 		free(temp);
 	return rc;
