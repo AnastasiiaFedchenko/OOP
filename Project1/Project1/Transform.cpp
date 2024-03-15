@@ -1,4 +1,5 @@
 #include "Transform.h"
+#include "Load.h"
 
 // 1
 error_t rotation_x(const point_t *O, point_t* p, const double angle_x)
@@ -55,17 +56,16 @@ double to_radians(const double degrees)
 	return (double)(degrees * M_PI) / 180;
 }
 
-error_t rotation(const figure_t *fig, const rotate_t *ch)
+error_t rotation(figure_t *fig, const rotate_t *ch)
 {
 	if (fig == NULL || ch == NULL)
 		return ERR_INVALID_ARG;
 	if (fig->points == NULL || fig->edges == NULL)
 		return ERR_NO_OBJECT;
 	error_t rc = ERR_OK;
-	point_t* temp = (point_t*)malloc(fig->n_points * sizeof(point_t));
-	if (temp == NULL)
-		rc = ERR_MEM;
-	else
+	point_t* temp;
+	rc = alloca_points(&temp, &(fig->n_points));
+	if (rc == ERR_OK)
 		memcpy(temp, fig->points, fig->n_points * sizeof(point_t));
 	for (int i = 0;rc == ERR_OK && i < fig->n_points; i++)
 	{
@@ -113,10 +113,9 @@ error_t shift(figure_t *fig, const shift_t *ch)
 		return ERR_NO_OBJECT;
 	error_t rc = ERR_OK;
 	point_t temp_O = fig->O;
-	point_t* temp = (point_t*)malloc(fig->n_points * sizeof(point_t));
-	if (temp == NULL)
-		rc = ERR_MEM;
-	else
+	point_t* temp;
+	rc = alloca_points(&temp, &(fig->n_points));
+	if (rc == ERR_OK)
 		memcpy(temp, fig->points, fig->n_points * sizeof(point_t));
 	rc = shift_x(&temp_O, ch->X);
 	if (rc == ERR_OK)
@@ -165,17 +164,16 @@ error_t scaling_z(const point_t *O, point_t* p, double kz)
 	return ERR_OK;
 }
 
-error_t scaling(const figure_t *fig, const scale_t *ch)
+error_t scaling(figure_t *fig, const scale_t *ch)
 {
 	if (fig == NULL || ch == NULL)
 		return ERR_INVALID_ARG;
 	if (fig->points == NULL || fig->edges == NULL)
 		return ERR_NO_OBJECT;
 	error_t rc = ERR_OK;
-	point_t* temp = (point_t*)malloc(fig->n_points * sizeof(point_t));
-	if (temp == NULL)
-		rc = ERR_MEM;
-	else
+	point_t* temp;
+	rc = alloca_points(&temp, &(fig->n_points));
+	if (rc == ERR_OK)
 		memcpy(temp, fig->points, fig->n_points * sizeof(point_t));
 	for (int i = 0; rc == ERR_OK && i < fig->n_points; i++)
 	{
