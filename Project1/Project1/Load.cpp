@@ -25,7 +25,7 @@ error_t load_edge(FILE* f, edge_t *e)
 	return rc;
 }
 
-error_t alloca_points(point_t** points, int* n_points, FILE* f)
+error_t alloca_points(point_t** points, int* n_points)
 {
 	error_t rc = ERR_OK;
 	(*points) = (point_t*)malloc((*n_points) * sizeof(point_t));
@@ -40,7 +40,7 @@ error_t load_points(point_t *O, point_t** points, int* n_points, FILE* f)
 	rc = load_point(f, O); // вводим точку O 
 	if (rc == ERR_OK && fscanf(f, "%d\n", n_points) == 1) // вводим количество точек
 	{
-		rc = alloca_points(points, n_points, f);
+		rc = alloca_points(points, n_points);
 		for (int i = 0; rc == ERR_OK && i < (*n_points); i++)
 			rc = load_point(f, &(*points)[i]); // вводим точки
 	}
@@ -50,7 +50,7 @@ error_t load_points(point_t *O, point_t** points, int* n_points, FILE* f)
 	return rc;
 }
 
-error_t alloca_edges(edge_t** edges, int* n_edges, FILE* f)
+error_t alloca_edges(edge_t** edges, int* n_edges)
 {
 	error_t rc = ERR_OK;
 	(*edges) = (edge_t*)malloc((*n_edges) * sizeof(edge_t));
@@ -64,7 +64,7 @@ error_t load_edges(edge_t **edges, int *n_edges, FILE* f)
 	error_t rc = ERR_OK;
 	if (fscanf(f, "%d\n", n_edges) == 1) // вводим количество рёбер
 	{
-		rc = alloca_edges(edges, n_edges, f);
+		rc = alloca_edges(edges, n_edges);
 		for (int i = 0; rc == ERR_OK && i < (*n_edges); i++)
 			rc = load_edge(f, &(*edges)[i]);
 	}
