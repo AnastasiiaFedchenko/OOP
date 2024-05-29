@@ -64,7 +64,7 @@ namespace WindowsFormsApp1
             if (got_new)
             {
                 this.need_to_visit[floor - 1] = true;
-                identifyNewTarget(out floor);
+                identifyNewTarget(ref floor);
                 target_floor = floor;
                 decideDirection();
                 if (direction == Direction.STAY)
@@ -74,7 +74,7 @@ namespace WindowsFormsApp1
                     moveCabin.Invoke(Math.Abs(cur_floor - target_floor) * 2000);
                 }
             }
-            else if (identifyNewTarget(out floor))
+            else if (identifyNewTarget(ref floor))
             {
                 target_floor = floor;
                 decideDirection();
@@ -100,11 +100,11 @@ namespace WindowsFormsApp1
             }
         }
         
-        bool identifyNewTarget(out int new_target) 
+        bool identifyNewTarget(ref int new_target) 
         {
             bool rc = false;
             Direction dir;
-            new_target = 0;
+            //new_target = 0;
 
             if (direction != Direction.STAY)
                 dir = direction;
@@ -149,7 +149,7 @@ namespace WindowsFormsApp1
                 need_to_visit[target_floor - 1] = false; // посещать его уже не надо
             }
 
-            if (identifyNewTarget(out this.target_floor))
+            if (identifyNewTarget(ref this.target_floor))
                 stopCabin();
             else
             {
@@ -171,7 +171,7 @@ namespace WindowsFormsApp1
                 need_to_visit[target_floor - 1] = false; // посещать его уже не надо
             }
             
-            if (identifyNewTarget(out this.target_floor))
+            if (identifyNewTarget(ref this.target_floor))
                 stopCabin();
             else 
             {
