@@ -34,8 +34,8 @@ namespace WindowsFormsApp1
             state = CabinState.STOP;
             doors = new Doors();
             doors.MoveCabin += MoveCabin;
-            doors.FreeCabin += FreeCabin;
-            //ReachFloor += doors.StartOpening;
+            //doors.FreeCabin += FreeCabin;
+            ReachFloor += doors.StartOpening;
             cur_floor = 1;
             target_floor = -1;
             new_target = false;
@@ -122,15 +122,15 @@ namespace WindowsFormsApp1
             {
                 state = CabinState.STOP;
                 Debug.WriteLine(string.Format("Лифт остановился на этаже №{0}", cur_floor));
-                doors.StartOpening(cur_floor);
-                //ReachFloor.Invoke(cur_floor);
+                //doors.StartOpening(cur_floor);
+                ReachFloor.Invoke(cur_floor);
             }
         }
         public delegate void FreeCabinDelegate();
-        public void FreeCabin()
+        /*public void FreeCabin()
         {
             ReachFloor.Invoke(cur_floor);
-        }
+        }*/
 
         public delegate void CallCabinDelegate(int floor);
         public void CallCabin(int floor) 

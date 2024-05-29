@@ -29,7 +29,7 @@ namespace WindowsFormsApp1
         System.Windows.Forms.Timer waitTimer = new System.Windows.Forms.Timer();
         System.Windows.Forms.Timer closeTimer = new System.Windows.Forms.Timer();
         public event Cabin.MoveCabinDelegate MoveCabin;
-        public event Cabin.FreeCabinDelegate FreeCabin;
+        //public event Cabin.FreeCabinDelegate FreeCabin;
         //public event ReachFloorDelegate ReachFloor;
 
         public Doors() 
@@ -68,9 +68,9 @@ namespace WindowsFormsApp1
             }
             else if (state == DoorState.CLOSED)
             {
-                FreeCabin.Invoke();
+                //FreeCabin.Invoke();
                 //ReachFloor.Invoke(this.floor);
-                //MoveCabin.Invoke();
+                MoveCabin.Invoke();
             }
         }
         public void StartOpening(int floor)
@@ -114,9 +114,9 @@ namespace WindowsFormsApp1
                 closeTimer.Stop();
                 state = DoorState.CLOSED; // Переход в состояние закрытых дверей
                 Debug.WriteLine("Двери закрыты.");
-                FreeCabin.Invoke();
+                //FreeCabin.Invoke();
                 //ReachFloor.Invoke(this.floor);
-                //MoveCabin.Invoke();
+                MoveCabin.Invoke();
             }
         }
     }
