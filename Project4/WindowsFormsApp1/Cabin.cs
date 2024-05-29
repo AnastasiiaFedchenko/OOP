@@ -20,6 +20,7 @@ namespace WindowsFormsApp1
             STOP
         };
         CabinState state;
+        int elev_n;
         Doors doors;
         int cur_floor;
         int target_floor;
@@ -29,10 +30,11 @@ namespace WindowsFormsApp1
         public event PassFloorDelegate PassFloor;
         public event ReachFloorDelegate ReachFloor;
 
-        public Cabin() 
+        public Cabin(int elev_n) 
         {
             state = CabinState.STOP;
-            doors = new Doors();
+            this.elev_n = elev_n;
+            doors = new Doors(elev_n);
             doors.MoveCabin += MoveCabin;
             ReachFloor += doors.StartOpening;
             cur_floor = 1;
@@ -53,7 +55,7 @@ namespace WindowsFormsApp1
                         StopCabin();
                     else
                     {
-                        moveTimer.Interval = 500;
+                        moveTimer.Interval = 5000;
                         moveTimer.Start();
                     }
                 }
@@ -64,8 +66,8 @@ namespace WindowsFormsApp1
                         StopCabin();
                     else
                     {
-                        PassFloor.Invoke(cur_floor);
-                        moveTimer.Interval = 500;
+                        PassFloor.Invoke(cur_floor, elev_n);
+                        moveTimer.Interval = 5000;
                         moveTimer.Start();
                     }
                 }
@@ -83,7 +85,7 @@ namespace WindowsFormsApp1
                         StopCabin();
                     else
                     {
-                        moveTimer.Interval = 500;
+                        moveTimer.Interval = 5000;
                         moveTimer.Start();
                     }
                 }
@@ -94,8 +96,8 @@ namespace WindowsFormsApp1
                         StopCabin();
                     else
                     {
-                        PassFloor.Invoke(cur_floor);
-                        moveTimer.Interval = 500;
+                        PassFloor.Invoke(cur_floor, elev_n);
+                        moveTimer.Interval = 5000;
                         moveTimer.Start();
                     }
                 }
@@ -106,8 +108,8 @@ namespace WindowsFormsApp1
             if (state == CabinState.MOVING)
             {
                 state = CabinState.STOP;
-                Debug.WriteLine(string.Format("Лифт остановился на этаже №{0}", cur_floor));
-                ReachFloor.Invoke(cur_floor);
+                Debug.WriteLine(string.Format("Лифт №{0} остановился на этаже №{1}", elev_n, cur_floor));
+                ReachFloor.Invoke(cur_floor, elev_n);
             }
         }
         public delegate void CallCabinDelegate(int floor);

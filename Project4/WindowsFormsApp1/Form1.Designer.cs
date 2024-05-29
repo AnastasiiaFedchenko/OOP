@@ -28,23 +28,166 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.FloorButton1 = new MyButton(1);
-            this.FloorButton2 = new MyButton(2);
-            this.FloorButton3 = new MyButton(3);
-            this.FloorButton4 = new MyButton(4);
-            this.FloorButton5 = new MyButton(5);
+            this.FloorButton1 = new MyButton(1, MyButton.ButtonPlacement.FLOOR);
+            this.FloorButton2 = new MyButton(2, MyButton.ButtonPlacement.FLOOR);
+            this.FloorButton3 = new MyButton(3, MyButton.ButtonPlacement.FLOOR);
+            this.FloorButton4 = new MyButton(4, MyButton.ButtonPlacement.FLOOR);
+            this.FloorButton5 = new MyButton(5, MyButton.ButtonPlacement.FLOOR);
 
-            this.ElevatorButton1 = new MyButton(1);
-            this.ElevatorButton2 = new MyButton(2);
-            this.ElevatorButton3 = new MyButton(3);
-            this.ElevatorButton4 = new MyButton(4);
-            this.ElevatorButton5 = new MyButton(5);
+            this.Elevator1Button1 = new MyButton(1, MyButton.ButtonPlacement.ELEV_1);
+            this.Elevator1Button2 = new MyButton(2, MyButton.ButtonPlacement.ELEV_1);
+            this.Elevator1Button3 = new MyButton(3, MyButton.ButtonPlacement.ELEV_1);
+            this.Elevator1Button4 = new MyButton(4, MyButton.ButtonPlacement.ELEV_1);
+            this.Elevator1Button5 = new MyButton(5, MyButton.ButtonPlacement.ELEV_1);
+
+            this.Elevator2Button1 = new MyButton(1, MyButton.ButtonPlacement.ELEV_2);
+            this.Elevator2Button2 = new MyButton(2, MyButton.ButtonPlacement.ELEV_2);
+            this.Elevator2Button3 = new MyButton(3, MyButton.ButtonPlacement.ELEV_2);
+            this.Elevator2Button4 = new MyButton(4, MyButton.ButtonPlacement.ELEV_2);
+            this.Elevator2Button5 = new MyButton(5, MyButton.ButtonPlacement.ELEV_2);
 
             this.FloorGroupBox = new System.Windows.Forms.GroupBox();
-            this.ElevatorGroupBox = new System.Windows.Forms.GroupBox();
+            this.Elevator1GroupBox = new System.Windows.Forms.GroupBox();
+            this.Elevator2GroupBox = new System.Windows.Forms.GroupBox();
             this.FloorGroupBox.SuspendLayout();
-            this.ElevatorGroupBox.SuspendLayout();
+            this.Elevator1GroupBox.SuspendLayout();
+            this.Elevator2GroupBox.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // FloorButton1
+            // 
+            this.FloorButton1.Location = new System.Drawing.Point(6, 62);
+            this.FloorButton1.Name = "FloorButton1";
+            this.FloorButton1.Size = new System.Drawing.Size(397, 54);
+            this.FloorButton1.TabIndex = 1;
+            this.FloorButton1.Text = "1";
+            this.FloorButton1.UseVisualStyleBackColor = true;
+            // 
+            // FloorButton2
+            // 
+            this.FloorButton2.Location = new System.Drawing.Point(6, 122);
+            this.FloorButton2.Name = "FloorButton2";
+            this.FloorButton2.Size = new System.Drawing.Size(397, 54);
+            this.FloorButton2.TabIndex = 2;
+            this.FloorButton2.Text = "2";
+            this.FloorButton2.UseVisualStyleBackColor = true;
+            // 
+            // FloorButton3
+            // 
+            this.FloorButton3.Location = new System.Drawing.Point(6, 182);
+            this.FloorButton3.Name = "FloorButton3";
+            this.FloorButton3.Size = new System.Drawing.Size(397, 54);
+            this.FloorButton3.TabIndex = 3;
+            this.FloorButton3.Text = "3";
+            this.FloorButton3.UseVisualStyleBackColor = true;
+            // 
+            // FloorButton4
+            // 
+            this.FloorButton4.Location = new System.Drawing.Point(6, 242);
+            this.FloorButton4.Name = "FloorButton4";
+            this.FloorButton4.Size = new System.Drawing.Size(397, 54);
+            this.FloorButton4.TabIndex = 4;
+            this.FloorButton4.Text = "4";
+            this.FloorButton4.UseVisualStyleBackColor = true;
+            // 
+            // FloorButton5
+            // 
+            this.FloorButton5.Location = new System.Drawing.Point(6, 302);
+            this.FloorButton5.Name = "FloorButton5";
+            this.FloorButton5.Size = new System.Drawing.Size(397, 54);
+            this.FloorButton5.TabIndex = 5;
+            this.FloorButton5.Text = "5";
+            this.FloorButton5.UseVisualStyleBackColor = true;
+            // 
+            // Elevator1Button1
+            // 
+            this.Elevator1Button1.Location = new System.Drawing.Point(6, 62);
+            this.Elevator1Button1.Name = "Elevator1Button1";
+            this.Elevator1Button1.Size = new System.Drawing.Size(397, 54);
+            this.Elevator1Button1.TabIndex = 1;
+            this.Elevator1Button1.Text = "1";
+            this.Elevator1Button1.UseVisualStyleBackColor = true;
+            // 
+            // Elevator1Button2
+            // 
+            this.Elevator1Button2.Location = new System.Drawing.Point(6, 122);
+            this.Elevator1Button2.Name = "Elevator1Button2";
+            this.Elevator1Button2.Size = new System.Drawing.Size(397, 54);
+            this.Elevator1Button2.TabIndex = 2;
+            this.Elevator1Button2.Text = "2";
+            this.Elevator1Button2.UseVisualStyleBackColor = true;
+            // 
+            // Elevator1Button3
+            // 
+            this.Elevator1Button3.Location = new System.Drawing.Point(6, 182);
+            this.Elevator1Button3.Name = "Elevator1Button3";
+            this.Elevator1Button3.Size = new System.Drawing.Size(397, 54);
+            this.Elevator1Button3.TabIndex = 3;
+            this.Elevator1Button3.Text = "3";
+            this.Elevator1Button3.UseVisualStyleBackColor = true;
+            // 
+            // Elevator1Button4
+            // 
+            this.Elevator1Button4.Location = new System.Drawing.Point(6, 242);
+            this.Elevator1Button4.Name = "Elevator1Button4";
+            this.Elevator1Button4.Size = new System.Drawing.Size(397, 54);
+            this.Elevator1Button4.TabIndex = 4;
+            this.Elevator1Button4.Text = "4";
+            this.Elevator1Button4.UseVisualStyleBackColor = true;
+            // 
+            // Elevator1Button5
+            // 
+            this.Elevator1Button5.Location = new System.Drawing.Point(6, 302);
+            this.Elevator1Button5.Name = "Elevator1Button5";
+            this.Elevator1Button5.Size = new System.Drawing.Size(397, 54);
+            this.Elevator1Button5.TabIndex = 5;
+            this.Elevator1Button5.Text = "5";
+            this.Elevator1Button5.UseVisualStyleBackColor = true;
+            // 
+            // Elevator2Button1
+            // 
+            this.Elevator2Button1.Location = new System.Drawing.Point(6, 62);
+            this.Elevator2Button1.Name = "Elevator2Button1";
+            this.Elevator2Button1.Size = new System.Drawing.Size(397, 54);
+            this.Elevator2Button1.TabIndex = 1;
+            this.Elevator2Button1.Text = "1";
+            this.Elevator2Button1.UseVisualStyleBackColor = true;
+            // 
+            // Elevator2Button2
+            // 
+            this.Elevator2Button2.Location = new System.Drawing.Point(6, 122);
+            this.Elevator2Button2.Name = "Elevator2Button2";
+            this.Elevator2Button2.Size = new System.Drawing.Size(397, 54);
+            this.Elevator2Button2.TabIndex = 2;
+            this.Elevator2Button2.Text = "2";
+            this.Elevator2Button2.UseVisualStyleBackColor = true;
+            // 
+            // Elevator2Button3
+            // 
+            this.Elevator2Button3.Location = new System.Drawing.Point(6, 182);
+            this.Elevator2Button3.Name = "Elevator2Button3";
+            this.Elevator2Button3.Size = new System.Drawing.Size(397, 54);
+            this.Elevator2Button3.TabIndex = 3;
+            this.Elevator2Button3.Text = "3";
+            this.Elevator2Button3.UseVisualStyleBackColor = true;
+            // 
+            // Elevator2Button4
+            // 
+            this.Elevator2Button4.Location = new System.Drawing.Point(6, 242);
+            this.Elevator2Button4.Name = "Elevator2Button4";
+            this.Elevator2Button4.Size = new System.Drawing.Size(397, 54);
+            this.Elevator2Button4.TabIndex = 4;
+            this.Elevator2Button4.Text = "4";
+            this.Elevator2Button4.UseVisualStyleBackColor = true;
+            // 
+            // Elevator2Button5
+            // 
+            this.Elevator2Button5.Location = new System.Drawing.Point(6, 302);
+            this.Elevator2Button5.Name = "Elevator2Button5";
+            this.Elevator2Button5.Size = new System.Drawing.Size(397, 54);
+            this.Elevator2Button5.TabIndex = 5;
+            this.Elevator2Button5.Text = "5";
+            this.Elevator2Button5.UseVisualStyleBackColor = true;
             // 
             // FloorGroupBox
             // 
@@ -61,122 +204,49 @@
             this.FloorGroupBox.TabStop = false;
             this.FloorGroupBox.Text = "Кнопки на этажах:";
             // 
-            // FloorButton5
+            // Elevator1GroupBox
             // 
-            this.FloorButton5.Location = new System.Drawing.Point(6, 302);
-            this.FloorButton5.Name = "FloorButton5";
-            this.FloorButton5.Size = new System.Drawing.Size(397, 54);
-            this.FloorButton5.TabIndex = 5;
-            this.FloorButton5.Text = "5";
-            this.FloorButton5.UseVisualStyleBackColor = true;
+            this.Elevator1GroupBox.Controls.Add(this.Elevator1Button1);
+            this.Elevator1GroupBox.Controls.Add(this.Elevator1Button2);
+            this.Elevator1GroupBox.Controls.Add(this.Elevator1Button3);
+            this.Elevator1GroupBox.Controls.Add(this.Elevator1Button4);
+            this.Elevator1GroupBox.Controls.Add(this.Elevator1Button5);
+            this.Elevator1GroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Elevator1GroupBox.Location = new System.Drawing.Point(438, 12);
+            this.Elevator1GroupBox.Name = "Elevator1GroupBox";
+            this.Elevator1GroupBox.Size = new System.Drawing.Size(409, 369);
+            this.Elevator1GroupBox.TabIndex = 3;
+            this.Elevator1GroupBox.TabStop = false;
+            this.Elevator1GroupBox.Text = "Кнопки в лифте 1:";
             // 
-            // FloorButton4
+            // Elevator2GroupBox
             // 
-            this.FloorButton4.Location = new System.Drawing.Point(6, 242);
-            this.FloorButton4.Name = "FloorButton4";
-            this.FloorButton4.Size = new System.Drawing.Size(397, 54);
-            this.FloorButton4.TabIndex = 4;
-            this.FloorButton4.Text = "4";
-            this.FloorButton4.UseVisualStyleBackColor = true;
-            // 
-            // FloorButton3
-            // 
-            this.FloorButton3.Location = new System.Drawing.Point(6, 182);
-            this.FloorButton3.Name = "FloorButton3";
-            this.FloorButton3.Size = new System.Drawing.Size(397, 54);
-            this.FloorButton3.TabIndex = 3;
-            this.FloorButton3.Text = "3";
-            this.FloorButton3.UseVisualStyleBackColor = true;
-            // 
-            // FloorButton2
-            // 
-            this.FloorButton2.Location = new System.Drawing.Point(6, 122);
-            this.FloorButton2.Name = "FloorButton2";
-            this.FloorButton2.Size = new System.Drawing.Size(397, 54);
-            this.FloorButton2.TabIndex = 2;
-            this.FloorButton2.Text = "2";
-            this.FloorButton2.UseVisualStyleBackColor = true;
-            // 
-            // FloorButton1
-            // 
-            this.FloorButton1.Location = new System.Drawing.Point(6, 62);
-            this.FloorButton1.Name = "FloorButton1";
-            this.FloorButton1.Size = new System.Drawing.Size(397, 54);
-            this.FloorButton1.TabIndex = 1;
-            this.FloorButton1.Text = "1";
-            this.FloorButton1.UseVisualStyleBackColor = true;
-            // 
-            // ElevaterGroupBox
-            // 
-            this.ElevatorGroupBox.Controls.Add(this.ElevatorButton1);
-            this.ElevatorGroupBox.Controls.Add(this.ElevatorButton2);
-            this.ElevatorGroupBox.Controls.Add(this.ElevatorButton3);
-            this.ElevatorGroupBox.Controls.Add(this.ElevatorButton4);
-            this.ElevatorGroupBox.Controls.Add(this.ElevatorButton5);
-            this.ElevatorGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ElevatorGroupBox.Location = new System.Drawing.Point(427, 12);
-            this.ElevatorGroupBox.Name = "ElevaterGroupBox";
-            this.ElevatorGroupBox.Size = new System.Drawing.Size(409, 369);
-            this.ElevatorGroupBox.TabIndex = 3;
-            this.ElevatorGroupBox.TabStop = false;
-            this.ElevatorGroupBox.Text = "Кнопки в лифте:";
-            // 
-            // ElevatorButton1
-            // 
-            this.ElevatorButton1.Location = new System.Drawing.Point(6, 62);
-            this.ElevatorButton1.Name = "ElevatorButton1";
-            this.ElevatorButton1.Size = new System.Drawing.Size(397, 54);
-            this.ElevatorButton1.TabIndex = 1;
-            this.ElevatorButton1.Text = "1";
-            this.ElevatorButton1.UseVisualStyleBackColor = true;
-            // 
-            // ElevatorButton2
-            // 
-            this.ElevatorButton2.Location = new System.Drawing.Point(6, 122);
-            this.ElevatorButton2.Name = "ElevatorButton2";
-            this.ElevatorButton2.Size = new System.Drawing.Size(397, 54);
-            this.ElevatorButton2.TabIndex = 2;
-            this.ElevatorButton2.Text = "2";
-            this.ElevatorButton2.UseVisualStyleBackColor = true;
-            // 
-            // ElevatorButton3
-            // 
-            this.ElevatorButton3.Location = new System.Drawing.Point(6, 182);
-            this.ElevatorButton3.Name = "ElevatorButton3";
-            this.ElevatorButton3.Size = new System.Drawing.Size(397, 54);
-            this.ElevatorButton3.TabIndex = 3;
-            this.ElevatorButton3.Text = "3";
-            this.ElevatorButton3.UseVisualStyleBackColor = true;
-            // 
-            // ElevatorButton4
-            // 
-            this.ElevatorButton4.Location = new System.Drawing.Point(6, 242);
-            this.ElevatorButton4.Name = "ElevatorButton4";
-            this.ElevatorButton4.Size = new System.Drawing.Size(397, 54);
-            this.ElevatorButton4.TabIndex = 4;
-            this.ElevatorButton4.Text = "4";
-            this.ElevatorButton4.UseVisualStyleBackColor = true;
-            // 
-            // ElevatorButtonn5
-            // 
-            this.ElevatorButton5.Location = new System.Drawing.Point(6, 302);
-            this.ElevatorButton5.Name = "ElevatorButton5";
-            this.ElevatorButton5.Size = new System.Drawing.Size(397, 54);
-            this.ElevatorButton5.TabIndex = 5;
-            this.ElevatorButton5.Text = "5";
-            this.ElevatorButton5.UseVisualStyleBackColor = true;
+            this.Elevator2GroupBox.Controls.Add(this.Elevator2Button1);
+            this.Elevator2GroupBox.Controls.Add(this.Elevator2Button2);
+            this.Elevator2GroupBox.Controls.Add(this.Elevator2Button3);
+            this.Elevator2GroupBox.Controls.Add(this.Elevator2Button4);
+            this.Elevator2GroupBox.Controls.Add(this.Elevator2Button5);
+            this.Elevator2GroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Elevator2GroupBox.Location = new System.Drawing.Point(864, 12);
+            this.Elevator2GroupBox.Name = "Elevator2GroupBox";
+            this.Elevator2GroupBox.Size = new System.Drawing.Size(409, 369);
+            this.Elevator2GroupBox.TabIndex = 3;
+            this.Elevator2GroupBox.TabStop = false;
+            this.Elevator2GroupBox.Text = "Кнопки в лифте 2:";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(855, 384);
-            this.Controls.Add(this.ElevatorGroupBox);
+            this.ClientSize = new System.Drawing.Size(1285, 384);
+            this.Controls.Add(this.Elevator1GroupBox);
+            this.Controls.Add(this.Elevator2GroupBox);
             this.Controls.Add(this.FloorGroupBox);
             this.Name = "Form1";
             this.Text = "ООП л/р 4";
             this.FloorGroupBox.ResumeLayout(false);
-            this.ElevatorGroupBox.ResumeLayout(false);
+            this.Elevator1GroupBox.ResumeLayout(false);
+            this.Elevator2GroupBox.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -190,12 +260,19 @@
         private MyButton FloorButton4;
         private MyButton FloorButton5;
         
-        private System.Windows.Forms.GroupBox ElevatorGroupBox;
-        private MyButton ElevatorButton1;
-        private MyButton ElevatorButton2;
-        private MyButton ElevatorButton3;
-        private MyButton ElevatorButton4;
-        private MyButton ElevatorButton5;
+        private System.Windows.Forms.GroupBox Elevator1GroupBox;
+        private MyButton Elevator1Button1;
+        private MyButton Elevator1Button2;
+        private MyButton Elevator1Button3;
+        private MyButton Elevator1Button4;
+        private MyButton Elevator1Button5;
+
+        private System.Windows.Forms.GroupBox Elevator2GroupBox;
+        private MyButton Elevator2Button1;
+        private MyButton Elevator2Button2;
+        private MyButton Elevator2Button3;
+        private MyButton Elevator2Button4;
+        private MyButton Elevator2Button5;
     }
 }
 

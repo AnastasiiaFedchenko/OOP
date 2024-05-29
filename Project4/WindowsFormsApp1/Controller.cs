@@ -27,59 +27,82 @@ namespace WindowsFormsApp1
             STAY = 0,
             DOWN = -1
         }
-        ControllerState state;
-        int cur_floor;
-        int target_floor;
-        Direction direction;
-        Direction last_direction;
+        List<ControllerState> state;
+        List<int> cur_floor;
+        List<int> target_floor;
+        List<Direction> direction;
+
         List<bool> need_to_visit;
         public List<MyButton> floor_buttons;
-        public List<MyButton> elevator_buttons;
+        public List<MyButton> elevator_buttons1;
+        public List<MyButton> elevator_buttons2;
 
-        public event Cabin.CallCabinDelegate CallCabin;
-        public Controller(List<MyButton> floor_b, List<MyButton> elev_b) 
+        public event Cabin.CallCabinDelegate CallCabin1;
+        public event Cabin.CallCabinDelegate CallCabin2;
+        public Controller(List<MyButton> floor_b, List<MyButton> elev_b1, List<MyButton> elev_b2) 
         {
-            state = ControllerState.FREE;
-            cur_floor = 1;
-            target_floor = 1;
+            state = new List<ControllerState>();
+            cur_floor = new List<int>();
+            target_floor = new List<int>();
+            direction = new List<Direction>();
+
+            state.Add(ControllerState.FREE);
+            state.Add(ControllerState.FREE);
+            cur_floor.Add(1);
+            cur_floor.Add(1);
+            target_floor.Add(1);
+            target_floor.Add(1);
+            direction.Add(Direction.STAY);
+            direction.Add(Direction.STAY);
+
             need_to_visit = new List<bool>();
             for (int i = 0; i < 5; i++)
                 need_to_visit.Add(false);
             floor_buttons = floor_b;
-            elevator_buttons = elev_b;
+            elevator_buttons1 = elev_b1;
+            elevator_buttons2 = elev_b2;
         }
 
-        public delegate void SetNewTargetDelegate(int floor);
-        public void SetNewTarget(int floor) 
+        public delegate void SetNewTargetDelegate(int floor, int elev_n);
+        public void SetNewTarget(int floor, int elev_n) 
         {
+            if (elev_n == 0)
+            {
+                if (state[0] == ControllerState.FREE) elev_n = 1;
+                else if (state[1] == ControllerState.FREE) elev_n = 2;
+                else
+                    elev_n = 1;
+            }
             if (need_to_visit[floor - 1] == true)
                 return;
-            state = ControllerState.BUSY;
+            state[elev_n - 1] = ControllerState.BUSY;
             need_to_visit[floor - 1] = true;
 
-            if (target_floor == -1)
-                target_floor = floor;
+            if (target_floor[elev_n - 1] == -1)
+                target_floor[elev_n - 1] = floor;
 
-            if ((direction == Direction.UP && floor > target_floor) || 
-                (direction == Direction.DOWN && floor < target_floor))
-                target_floor = floor;
+            if ((direction[elev_n - 1] == Direction.UP && floor > target_floor[elev_n - 1]) ||
+                (direction[elev_n - 1] == Direction.DOWN && floor < target_floor[elev_n - 1]))
+                target_floor[elev_n - 1] = floor;
 
-            if (cur_floor > target_floor)
-                direction = Direction.DOWN;
+            if (cur_floor[elev_n - 1] > target_floor[elev_n - 1])
+                direction[elev_n - 1] = Direction.DOWN;
             else
-                direction = Direction.UP;
-
-            CallCabin(floor);
+                direction[elev_n - 1] = Direction.UP;
+            if (elev_n == 1)
+                CallCabin1(floor);
+            else 
+                CallCabin2(floor);
         }
-        void GetNewTarget() 
+        void GetNewTarget(int elev_n) 
         {
-            if (direction == Direction.UP)
+            if (direction[elev_n - 1] == Direction.UP)
             {
                 for (int i = 5; i >= 1; i--)
                 {
                     if (need_to_visit[i - 1] == true)
                     {
-                        target_floor = i;
+                        target_floor[elev_n - 1] = i;
                         return;
                     }
                 }
@@ -90,17 +113,17 @@ namespace WindowsFormsApp1
                 {
                     if (need_to_visit[i - 1] == true)
                     {
-                        target_floor = i;
+                        target_floor[elev_n - 1] = i;
                         break;
                     }
                 }
             }
         }
-        bool NextTarget(ref int floor) 
+        bool NextTarget(ref int floor, int elev_n) 
         {
-            if (target_floor > cur_floor)
+            if (target_floor[elev_n - 1] > cur_floor[elev_n - 1])
             {
-                for (int i = cur_floor; i <= 5; i++)
+                for (int i = cur_floor[elev_n - 1]; i <= 5; i++)
                 {
                     if (need_to_visit[i - 1])
                     {
@@ -111,7 +134,7 @@ namespace WindowsFormsApp1
             }
             else
             {
-                for (int i = cur_floor; i >= 1; i--)
+                for (int i = cur_floor[elev_n - 1]; i >= 1; i--)
                 {
                     if (need_to_visit[i - 1])
                     {
@@ -123,39 +146,42 @@ namespace WindowsFormsApp1
             return false;
         }
 
-        public delegate void ReachFloorDelegate(int floor);
-        public void ReachFloor(int floor)
+        public delegate void ReachFloorDelegate(int floor, int elev_n);
+        public void ReachFloor(int floor, int elev_n)
         {
-            if (state == ControllerState.BUSY)
+            if (state[elev_n - 1] == ControllerState.BUSY)
             {
-                cur_floor = floor;
+                cur_floor[elev_n - 1] = floor;
                 need_to_visit[floor - 1] = false;
-                floor_buttons[floor -1].Unpress();
-                elevator_buttons[floor - 1].Unpress();
+                floor_buttons[floor - 1].Unpress();
+                if (elev_n == 1)
+                    elevator_buttons1[floor - 1].Unpress();
+                else
+                    elevator_buttons2[floor - 1].Unpress();
 
-                if (cur_floor == target_floor)
+                if (cur_floor[elev_n - 1] == target_floor[elev_n - 1])
                 {
-                    target_floor = -1;
-                    GetNewTarget();
+                    target_floor[elev_n - 1] = -1;
+                    GetNewTarget(elev_n);
                 }
-                if (NextTarget(ref floor))
+                if (NextTarget(ref floor, elev_n))
                 {
-                    if (cur_floor > target_floor)
-                        direction = Direction.DOWN;
+                    if (cur_floor[elev_n - 1] > target_floor[elev_n - 1])
+                        direction[elev_n - 1] = Direction.DOWN;
                     else
-                        direction = Direction.UP;
-                    CallCabin(floor);
+                        direction[elev_n - 1] = Direction.UP;
+                    CallCabin1(floor);
                 }
                 else
-                    state = ControllerState.FREE;
+                    state[elev_n - 1] = ControllerState.FREE;
             }
         }
 
-        public delegate void PassFloorDelegate(int floor);
-        public void PassFloor(int floor) 
+        public delegate void PassFloorDelegate(int floor, int elev_n);
+        public void PassFloor(int floor, int elev_n) 
         {
-            cur_floor = floor;
-            Debug.WriteLine(string.Format("Лифт проходит этаж №{0}", floor));
+            cur_floor[elev_n - 1] = floor;
+            Debug.WriteLine(string.Format("Лифт №{0} проходит этаж №{1}", elev_n, floor));
         }
     }
 }

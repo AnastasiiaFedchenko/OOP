@@ -16,12 +16,21 @@ namespace WindowsFormsApp1
             ACTIVE,
             INACTIVE
         };
+        public enum ButtonPlacement 
+        {
+            FLOOR = 0,
+            ELEV_1 = 1,
+            ELEV_2 = 2
+        }
         ButtonState state;
+        ButtonPlacement placement;
         int floor;
+
         public event Controller.SetNewTargetDelegate SetNewTarget; 
-        public MyButton(int floor): base() 
+        public MyButton(int floor, ButtonPlacement placement) : base() 
         { 
             this.state = ButtonState.INACTIVE;
+            this.placement = placement;
             this.floor = floor;
         }
         protected override void OnClick(EventArgs e) 
@@ -31,7 +40,7 @@ namespace WindowsFormsApp1
             this.state = ButtonState.ACTIVE;
             Debug.WriteLine(string.Format("Вызов на этаж №{0}", this.floor));
             this.Enabled = false;
-            SetNewTarget.Invoke(this.floor);
+            SetNewTarget.Invoke(this.floor, (int)placement);
         }
         public void Unpress() 
         {
