@@ -58,13 +58,14 @@ namespace WindowsFormsApp1
         }*/
 
         public delegate void NewTargetDelegate(bool got_new, int floor);
-        public void NewTarget(bool got_new, int floor)
+        public void NewTarget(bool got_new, int floor) // проблема: едет с 4ого на 4
         {
             this.state = ControllerState.BUSY;
             if (got_new)
             {
                 this.need_to_visit[floor - 1] = true;
                 identifyNewTarget(ref floor);
+                cur_floor = target_floor;
                 target_floor = floor;
                 decideDirection();
                 if (direction == Direction.STAY)
@@ -76,13 +77,14 @@ namespace WindowsFormsApp1
             }
             else if (identifyNewTarget(ref floor))
             {
+                cur_floor = target_floor;
                 target_floor = floor;
                 decideDirection();
                 if (direction == Direction.STAY)
                     reachFloor();
                 else
                 {
-                    updateFloor();
+                    //updateFloor();
                     moveCabin.Invoke(Math.Abs(cur_floor - target_floor) * 2000);
                 }
             }
