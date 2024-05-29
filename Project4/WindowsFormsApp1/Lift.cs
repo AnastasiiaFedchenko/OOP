@@ -14,16 +14,18 @@ namespace WindowsFormsApp1
         public Lift(List<MyButton> floor_b, List<MyButton> elev_b) 
         {
             controller = new Controller(floor_b, elev_b);
+            
             for (int i = 0; i < controller.floor_buttons.Count; i++)
-                controller.floor_buttons[i].newTarget += this.controller.NewTarget;
+                controller.floor_buttons[i].SetNewTarget += this.controller.SetNewTarget;
             for (int i = 0; i < controller.elevator_buttons.Count; i++)
-                controller.elevator_buttons[i].newTarget += this.controller.NewTarget;
+                controller.elevator_buttons[i].SetNewTarget += this.controller.SetNewTarget;
 
             cabin = new Cabin();
-            cabin.newTarget += controller.NewTarget;
-            cabin.moveTimer.Tick += new EventHandler(controller.reachFloor);
-            controller.moveCabin += cabin.moveCabin;
-            controller.stopCabin += cabin.stopCabin;
+            cabin.PassFloor += controller.PassFloor;
+            cabin.ReachFloor += controller.ReachFloor;
+            //cabin.add_reach_floor();
+
+            controller.CallCabin += cabin.CallCabin;
         }
     }
 }

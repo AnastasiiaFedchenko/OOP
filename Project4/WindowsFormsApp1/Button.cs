@@ -18,7 +18,7 @@ namespace WindowsFormsApp1
         };
         ButtonState state;
         int floor;
-        public event Controller.NewTargetDelegate newTarget; // нужно при создании кнопок в controller 
+        public event Controller.SetNewTargetDelegate SetNewTarget; // нужно при создании кнопок в controller 
         // писать MyButton.NewTarget += Controller.NewTarget;
         public MyButton(int floor): base() 
         { 
@@ -34,7 +34,7 @@ namespace WindowsFormsApp1
             //listBox.Invoke(PrintDelegateFunc, new object[] 
                            //{ string.Format("Вызов на этаж №{0}", this.floor) });
             this.Enabled = false;
-            newTarget.Invoke(true, this.floor);
+            SetNewTarget.Invoke(this.floor);
         }
         public void Unpress() 
         {

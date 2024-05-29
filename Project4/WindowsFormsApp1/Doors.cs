@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.Design;
 using static System.Windows.Forms.AxHost;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip;
+using static WindowsFormsApp1.Controller;
 using static WindowsFormsApp1.Form1;
 
 namespace WindowsFormsApp1
@@ -23,10 +24,13 @@ namespace WindowsFormsApp1
             CLOSING
         };
         DoorState state;
+        int floor;
         System.Windows.Forms.Timer openTimer = new System.Windows.Forms.Timer();
         System.Windows.Forms.Timer waitTimer = new System.Windows.Forms.Timer();
         System.Windows.Forms.Timer closeTimer = new System.Windows.Forms.Timer();
-        public event Cabin.FreeDelegate free;
+        public event Cabin.MoveCabinDelegate MoveCabin;
+        public event Cabin.FreeCabinDelegate FreeCabin;
+        //public event ReachFloorDelegate ReachFloor;
 
         public Doors() 
         {
@@ -36,69 +40,84 @@ namespace WindowsFormsApp1
             this.state = DoorState.CLOSED; 
         }
 
-        public void StartClosing(Object my_object, EventArgs my_args) 
+        public void StartClosing() 
         {
-            // Если двери до этого не открыты, закрывать не можем
-            if (this.state != DoorState.OPEN) return;
-
-            this.state = DoorState.CLOSING;
-
-            Debug.WriteLine(string.Format("Двери закрываются..."));
-
-            this.closeTimer.Interval = 2000;
-            this.closeTimer.Start();
+            if (state == DoorState.OPEN)
+            {
+                state = DoorState.CLOSING; // Переход в состояние закрытия дверей
+                Debug.WriteLine("Двери закрываются...");
+                this.closeTimer.Interval = 1000;
+                this.closeTimer.Start();
+            }
+            else if (state == DoorState.CLOSED)
+            {
+                //FreeCabin.Invoke();
+                //ReachFloor.Invoke(this.floor);
+                MoveCabin.Invoke();
+            }
         }
-        public void StartOpening()
+        public void StartClosing(Object my_object, EventArgs my_args)
         {
-            if (!(this.state == DoorState.CLOSED || this.state == DoorState.CLOSING)) return;
-
-            Debug.WriteLine(string.Format("Двери открываются..."));
-
-            if (this.state == DoorState.CLOSED)
+            if (state == DoorState.OPEN)
             {
-                this.openTimer.Interval = 2000;
+                waitTimer.Stop();
+                state = DoorState.CLOSING; // Переход в состояние закрытия дверей
+                Debug.WriteLine("Двери закрываются...");
+                this.closeTimer.Interval = 1000;
+                this.closeTimer.Start();
+            }
+            else if (state == DoorState.CLOSED)
+            {
+                FreeCabin.Invoke();
+                //ReachFloor.Invoke(this.floor);
+                //MoveCabin.Invoke();
+            }
+        }
+        public void StartOpening(int floor)
+        {
+            if (state == DoorState.CLOSED)
+            {
+                this.floor = floor;
+                state = DoorState.OPENING; // Переход в состояние открытия дверей
+                Debug.WriteLine("Двери открываются...");
+                this.openTimer.Interval = 1000;
                 this.openTimer.Start();
             }
-            else
+            else if (state == DoorState.OPEN)
             {
-                int timer = this.closeTimer.Interval;
-                closeTimer.Stop();
-                this.openTimer.Interval = 2000 - timer;
-                this.openTimer.Start();
+                this.waitTimer.Interval = 3000;
+                this.waitTimer.Start();
             }
-            this.state = DoorState.OPENING;
         }
 
         public void Open(Object my_object, EventArgs my_args) 
         {
-            // Если двери до этого не открывались, выходим
-            if (this.state != DoorState.OPENING) return;
-
-            // Изменение состояния
-            this.state = DoorState.OPEN;
-
-            //listBox.Invoke(PrintDelegateFunc, new object[] 
-            //{ string.Format("Двери открылись!") });
-            Debug.WriteLine(string.Format("Двери открылись!"));
-            Debug.WriteLine(string.Format("Можно заходить."));
-
-            // Запуск таймера
-            this.waitTimer.Interval = 3000;
-            this.waitTimer.Start();
+            if (state == DoorState.OPENING)
+            {
+                openTimer.Stop();
+                state = DoorState.OPEN; // Переход в состояние открытых дверей
+                Debug.WriteLine("Двери открыты. Можно заходить.");
+                this.waitTimer.Interval = 3000;
+                this.waitTimer.Start();
+            }
+            else if (state == DoorState.OPEN)
+            {
+                this.waitTimer.Interval = 3000;
+                this.waitTimer.Start();
+            }
 
         }
         public void Close(Object my_object, EventArgs my_args) 
         {
-            // Если двери до этого не закрывались, выходим
-            if (this.state != DoorState.CLOSING) return;
-
-            // Изменение состояния
-            this.state = DoorState.CLOSED;
-
-            Debug.WriteLine(string.Format("Двери закрылись!"));
-
-            // Сообщаем другим, что мы закрылись
-            free.Invoke();
+            if (state == DoorState.CLOSING)
+            {
+                closeTimer.Stop();
+                state = DoorState.CLOSED; // Переход в состояние закрытых дверей
+                Debug.WriteLine("Двери закрыты.");
+                FreeCabin.Invoke();
+                //ReachFloor.Invoke(this.floor);
+                //MoveCabin.Invoke();
+            }
         }
     }
 }

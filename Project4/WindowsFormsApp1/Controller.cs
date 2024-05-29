@@ -10,6 +10,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 using static System.Windows.Forms.AxHost;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Drawing;
 
 namespace WindowsFormsApp1
 {
@@ -20,11 +21,11 @@ namespace WindowsFormsApp1
             FREE,
             BUSY
         };
-        enum Direction 
+        public enum Direction 
         {
-            UP = -1, 
+            UP = 1, 
             STAY = 0,
-            DOWN = 1
+            DOWN = -1
         }
         ControllerState state;
         int cur_floor;
@@ -35,8 +36,7 @@ namespace WindowsFormsApp1
         public List<MyButton> floor_buttons;
         public List<MyButton> elevator_buttons;
 
-        public event Cabin.MoveCabinDelegate moveCabin;
-        public event Cabin.StopCabinDelegate stopCabin;
+        public event Cabin.CallCabinDelegate CallCabin;
         public Controller(List<MyButton> floor_b, List<MyButton> elev_b) 
         {
             state = ControllerState.FREE;
@@ -49,142 +49,114 @@ namespace WindowsFormsApp1
             elevator_buttons = elev_b;
         }
 
-        /*public delegate void FreeDelegate();
-        public void free() 
+        public delegate void SetNewTargetDelegate(int floor);
+        public void SetNewTarget(int floor) 
         {
-            this.state = ControllerState.FREE;
-            cur_floor = this.target_floor;
-            NewTarget(false, 0);
-        }*/
+            if (need_to_visit[floor - 1] == true)
+                return;
+            state = ControllerState.BUSY;
+            need_to_visit[floor - 1] = true;
 
-        public delegate void NewTargetDelegate(bool got_new, int floor);
-        public void NewTarget(bool got_new, int floor) // проблема: едет с 4ого на 4
-        {
-            this.state = ControllerState.BUSY;
-            if (got_new)
-            {
-                this.need_to_visit[floor - 1] = true;
-                identifyNewTarget(ref floor);
-                cur_floor = target_floor;
+            if (target_floor == -1)
                 target_floor = floor;
-                decideDirection();
-                if (direction == Direction.STAY)
-                    reachFloor();
-                else
-                {
-                    moveCabin.Invoke(Math.Abs(cur_floor - target_floor) * 2000);
-                }
-            }
-            else if (identifyNewTarget(ref floor))
+
+            if ((direction == Direction.UP && floor > target_floor) || 
+                (direction == Direction.DOWN && floor < target_floor))
             {
-                cur_floor = target_floor;
                 target_floor = floor;
-                decideDirection();
-                if (direction == Direction.STAY)
-                    reachFloor();
-                else
-                {
-                    //updateFloor();
-                    moveCabin.Invoke(Math.Abs(cur_floor - target_floor) * 2000);
-                }
             }
-        }
-        void decideDirection() 
-        {
-            if (target_floor > cur_floor)
-                direction = Direction.UP;
-            else if (target_floor < cur_floor)
+
+            // Если лифт стоял и ему дали новую цель, определим его направление движения
+            if (cur_floor > target_floor)
                 direction = Direction.DOWN;
             else
+                direction = Direction.UP;
+
+            CallCabin(floor);
+        }
+        void GetNewTarget() 
+        {
+            // Если двигались вверх, ищем ближайший сверху(не нашли - смотрим ниже)
+            if (direction == Direction.UP)
             {
-                last_direction = direction;
-                direction = Direction.STAY;
+                for (int i = 5; i >= 1; i--)
+                    if (need_to_visit[i - 1] == true)
+                    {
+                        target_floor = i;
+                        return;
+                    }
+            }
+            // Если двигались в низ/стояли - ищем ближайший снизу(не нашли - смотрим выше)
+            else
+            {
+                for (int i = 1; i <= 5; i++)
+                    if (need_to_visit[i - 1] == true)
+                    {
+                        target_floor = i;
+                        break;
+                    }
             }
         }
-        
-        bool identifyNewTarget(ref int new_target) 
+        bool NextTarget(ref int floor) 
         {
-            bool rc = false;
-            Direction dir;
-            //new_target = 0;
-
-            if (direction != Direction.STAY)
-                dir = direction;
-            else
-                dir = (last_direction == Direction.STAY) ? Direction.UP : last_direction;
-
-            for (int i = cur_floor; !rc && i <= 5 && i > 0; i = i + (int)dir)
-                if (need_to_visit[i - 1])
-                {
-                    new_target = i;
-                    rc = true;
-                }
-
-            if (!rc)
+            if (target_floor > cur_floor)
             {
-                dir = ((dir == Direction.UP) ? Direction.DOWN : Direction.UP);
-
-                for (int i = cur_floor; !rc && i <= 5 && i > 0; i = i + (int)dir)
-                {
+                for (int i = cur_floor; i <= 5; i++)
                     if (need_to_visit[i - 1])
                     {
-                        new_target = i;
-                        rc = true;
+                        floor = i;
+                        return true;
                     }
-                }
             }
-
-            return rc;
-        }
-        public delegate void ReachFloor(Object my_object, EventArgs my_args);
-        public void reachFloor(Object my_object, EventArgs my_args) 
-        {
-            // Если контроллер не занят, выходим [лифт не движется]
-            if (this.state != ControllerState.BUSY) return;
-
-            Debug.WriteLine(string.Format("Лифт на этаже №{0}", target_floor));
-
-            if ((target_floor - 1) >= 0 && (target_floor - 1) < 5)
-            {
-                floor_buttons[target_floor - 1].Unpress(); // кнопка разжимается
-                elevator_buttons[target_floor - 1].Unpress();
-                need_to_visit[target_floor - 1] = false; // посещать его уже не надо
-            }
-
-            if (identifyNewTarget(ref this.target_floor))
-                stopCabin();
             else
             {
-                this.state = ControllerState.FREE;
-                stopCabin();
+                for (int i = cur_floor; i >= 1; i--)
+                    if (need_to_visit[i - 1])
+                    {
+                        floor = i;
+                        return true;
+                    }
+            }
+            return false;
+        }
+
+        public delegate void ReachFloorDelegate(int floor);
+        public void ReachFloor(int floor)
+        {
+            // Если достигли во время работы
+            if (state == ControllerState.BUSY)
+            {
+                cur_floor = floor; // Обновляем текущий этаж на котором находится лифт
+                need_to_visit[floor - 1] = false; // При достижении этажа удаляем его из целей
+                floor_buttons[floor -1].Unpress();
+                elevator_buttons[floor - 1].Unpress();
+
+                // Если достигли целевого этажа - устанавливаем новую цель
+                if (cur_floor == target_floor)
+                {
+                    target_floor = -1;
+                    GetNewTarget();
+                }
+                // Если еще остались этажи, куда нужно доехать - устанавливаем новую ближайшую цель
+                if (NextTarget(ref floor))
+                {
+                    if (cur_floor > target_floor)
+                        direction = Direction.DOWN;
+                    else
+                        direction = Direction.UP;
+                    CallCabin(floor);
+                }
+                // Если добрались до всех этажей - контроллер свободен
+                else
+                    state = ControllerState.FREE;
             }
         }
-        public void reachFloor()
-        {
-            // Если контроллер не занят, выходим [лифт не движется]
-            if (this.state != ControllerState.BUSY) return;
 
-            Debug.WriteLine(string.Format("Лифт на этаже №{0}", target_floor));
-
-            if ((target_floor - 1) >= 0 && (target_floor - 1) < 5)
-            {
-                floor_buttons[target_floor - 1].Unpress(); // кнопка разжимается
-                elevator_buttons[target_floor - 1].Unpress();
-                need_to_visit[target_floor - 1] = false; // посещать его уже не надо
-            }
-            
-            if (identifyNewTarget(ref this.target_floor))
-                stopCabin();
-            else 
-            {
-                this.state = ControllerState.FREE;
-                stopCabin();
-            }
-        }
-        void updateFloor()
+        public delegate void PassFloorDelegate(int floor);
+        public void PassFloor(int floor) 
         {
-            cur_floor += (int)direction;
-            //qDebug() << "... Лифт едет на этаж № " << _curFloor;
+            cur_floor = floor;
+            Debug.WriteLine(string.Format("Лифт проходит этаж №{0}", floor));
         }
     }
 }
