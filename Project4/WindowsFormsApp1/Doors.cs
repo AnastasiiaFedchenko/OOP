@@ -29,8 +29,6 @@ namespace WindowsFormsApp1
         System.Windows.Forms.Timer waitTimer = new System.Windows.Forms.Timer();
         System.Windows.Forms.Timer closeTimer = new System.Windows.Forms.Timer();
         public event Cabin.MoveCabinDelegate MoveCabin;
-        //public event Cabin.FreeCabinDelegate FreeCabin;
-        //public event ReachFloorDelegate ReachFloor;
 
         public Doors() 
         {
@@ -44,41 +42,33 @@ namespace WindowsFormsApp1
         {
             if (state == DoorState.OPEN)
             {
-                state = DoorState.CLOSING; // Переход в состояние закрытия дверей
+                state = DoorState.CLOSING;
                 Debug.WriteLine("Двери закрываются...");
                 this.closeTimer.Interval = 1000;
                 this.closeTimer.Start();
             }
             else if (state == DoorState.CLOSED)
-            {
-                //FreeCabin.Invoke();
-                //ReachFloor.Invoke(this.floor);
                 MoveCabin.Invoke();
-            }
         }
         public void StartClosing(Object my_object, EventArgs my_args)
         {
             if (state == DoorState.OPEN)
             {
                 waitTimer.Stop();
-                state = DoorState.CLOSING; // Переход в состояние закрытия дверей
+                state = DoorState.CLOSING;
                 Debug.WriteLine("Двери закрываются...");
                 this.closeTimer.Interval = 1000;
                 this.closeTimer.Start();
             }
             else if (state == DoorState.CLOSED)
-            {
-                //FreeCabin.Invoke();
-                //ReachFloor.Invoke(this.floor);
                 MoveCabin.Invoke();
-            }
         }
         public void StartOpening(int floor)
         {
             if (state == DoorState.CLOSED)
             {
                 this.floor = floor;
-                state = DoorState.OPENING; // Переход в состояние открытия дверей
+                state = DoorState.OPENING;
                 Debug.WriteLine("Двери открываются...");
                 this.openTimer.Interval = 1000;
                 this.openTimer.Start();
@@ -95,7 +85,7 @@ namespace WindowsFormsApp1
             if (state == DoorState.OPENING)
             {
                 openTimer.Stop();
-                state = DoorState.OPEN; // Переход в состояние открытых дверей
+                state = DoorState.OPEN;
                 Debug.WriteLine("Двери открыты. Можно заходить.");
                 this.waitTimer.Interval = 3000;
                 this.waitTimer.Start();
@@ -112,10 +102,8 @@ namespace WindowsFormsApp1
             if (state == DoorState.CLOSING)
             {
                 closeTimer.Stop();
-                state = DoorState.CLOSED; // Переход в состояние закрытых дверей
+                state = DoorState.CLOSED;
                 Debug.WriteLine("Двери закрыты.");
-                //FreeCabin.Invoke();
-                //ReachFloor.Invoke(this.floor);
                 MoveCabin.Invoke();
             }
         }

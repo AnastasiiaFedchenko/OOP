@@ -18,8 +18,7 @@ namespace WindowsFormsApp1
         };
         ButtonState state;
         int floor;
-        public event Controller.SetNewTargetDelegate SetNewTarget; // нужно при создании кнопок в controller 
-        // писать MyButton.NewTarget += Controller.NewTarget;
+        public event Controller.SetNewTargetDelegate SetNewTarget; 
         public MyButton(int floor): base() 
         { 
             this.state = ButtonState.INACTIVE;
@@ -31,17 +30,13 @@ namespace WindowsFormsApp1
 
             this.state = ButtonState.ACTIVE;
             Debug.WriteLine(string.Format("Вызов на этаж №{0}", this.floor));
-            //listBox.Invoke(PrintDelegateFunc, new object[] 
-                           //{ string.Format("Вызов на этаж №{0}", this.floor) });
             this.Enabled = false;
             SetNewTarget.Invoke(this.floor);
         }
         public void Unpress() 
         {
-            // Если кнопка уже разжата, выходим
             if (this.state == ButtonState.INACTIVE) return;
 
-            // Изменение состояния
             this.state = ButtonState.INACTIVE;
             this.Enabled = true;
         }

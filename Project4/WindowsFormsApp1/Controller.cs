@@ -62,11 +62,8 @@ namespace WindowsFormsApp1
 
             if ((direction == Direction.UP && floor > target_floor) || 
                 (direction == Direction.DOWN && floor < target_floor))
-            {
                 target_floor = floor;
-            }
 
-            // Если лифт стоял и ему дали новую цель, определим его направление движения
             if (cur_floor > target_floor)
                 direction = Direction.DOWN;
             else
@@ -76,25 +73,27 @@ namespace WindowsFormsApp1
         }
         void GetNewTarget() 
         {
-            // Если двигались вверх, ищем ближайший сверху(не нашли - смотрим ниже)
             if (direction == Direction.UP)
             {
                 for (int i = 5; i >= 1; i--)
+                {
                     if (need_to_visit[i - 1] == true)
                     {
                         target_floor = i;
                         return;
                     }
+                }
             }
-            // Если двигались в низ/стояли - ищем ближайший снизу(не нашли - смотрим выше)
             else
             {
                 for (int i = 1; i <= 5; i++)
+                {
                     if (need_to_visit[i - 1] == true)
                     {
                         target_floor = i;
                         break;
                     }
+                }
             }
         }
         bool NextTarget(ref int floor) 
@@ -102,20 +101,24 @@ namespace WindowsFormsApp1
             if (target_floor > cur_floor)
             {
                 for (int i = cur_floor; i <= 5; i++)
+                {
                     if (need_to_visit[i - 1])
                     {
                         floor = i;
                         return true;
                     }
+                }
             }
             else
             {
                 for (int i = cur_floor; i >= 1; i--)
+                {
                     if (need_to_visit[i - 1])
                     {
                         floor = i;
                         return true;
                     }
+                }
             }
             return false;
         }
@@ -123,21 +126,18 @@ namespace WindowsFormsApp1
         public delegate void ReachFloorDelegate(int floor);
         public void ReachFloor(int floor)
         {
-            // Если достигли во время работы
             if (state == ControllerState.BUSY)
             {
-                cur_floor = floor; // Обновляем текущий этаж на котором находится лифт
-                need_to_visit[floor - 1] = false; // При достижении этажа удаляем его из целей
+                cur_floor = floor;
+                need_to_visit[floor - 1] = false;
                 floor_buttons[floor -1].Unpress();
                 elevator_buttons[floor - 1].Unpress();
 
-                // Если достигли целевого этажа - устанавливаем новую цель
                 if (cur_floor == target_floor)
                 {
                     target_floor = -1;
                     GetNewTarget();
                 }
-                // Если еще остались этажи, куда нужно доехать - устанавливаем новую ближайшую цель
                 if (NextTarget(ref floor))
                 {
                     if (cur_floor > target_floor)
@@ -146,7 +146,6 @@ namespace WindowsFormsApp1
                         direction = Direction.UP;
                     CallCabin(floor);
                 }
-                // Если добрались до всех этажей - контроллер свободен
                 else
                     state = ControllerState.FREE;
             }

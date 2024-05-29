@@ -23,7 +23,6 @@ namespace WindowsFormsApp1
             cabin = new Cabin();
             cabin.PassFloor += controller.PassFloor;
             cabin.ReachFloor += controller.ReachFloor;
-            //cabin.add_reach_floor();
 
             controller.CallCabin += cabin.CallCabin;
         }
