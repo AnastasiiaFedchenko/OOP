@@ -42,6 +42,8 @@ namespace WindowsFormsApp1
             this.Enabled = false;
             SetNewTarget.Invoke(this.floor, (int)placement);
         }
+
+        public delegate void UnpressDelegate();
         public void Unpress() 
         {
             if (this.state == ButtonState.INACTIVE) return;

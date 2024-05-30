@@ -37,8 +37,12 @@ namespace WindowsFormsApp1
         public List<MyButton> elevator_buttons1;
         public List<MyButton> elevator_buttons2;
 
-        public event Cabin.CallCabinDelegate CallCabin1;
-        public event Cabin.CallCabinDelegate CallCabin2;
+        public event Cabin.CallCabinDelegate CallCabin1Event;
+        public event Cabin.CallCabinDelegate CallCabin2Event;
+
+        public List<MyButton.UnpressDelegate> UnpressesFloorButtonEvent;
+        public List<MyButton.UnpressDelegate> UnpressesElev1ButtonEvent;
+        public List<MyButton.UnpressDelegate> UnpressesElev2ButtonEvent;
         public Controller(List<MyButton> floor_b, List<MyButton> elev_b1, List<MyButton> elev_b2) 
         {
             state = new List<ControllerState>();
@@ -56,8 +60,16 @@ namespace WindowsFormsApp1
             direction.Add(Direction.STAY);
 
             need_to_visit = new List<bool>();
+            UnpressesFloorButtonEvent = new List<MyButton.UnpressDelegate>();
+            UnpressesElev1ButtonEvent = new List<MyButton.UnpressDelegate>();
+            UnpressesElev2ButtonEvent = new List<MyButton.UnpressDelegate>();
             for (int i = 0; i < 5; i++)
+            {
+                UnpressesFloorButtonEvent.Add(floor_b[i].Unpress);
+                UnpressesElev1ButtonEvent.Add(elev_b1[i].Unpress);
+                UnpressesElev2ButtonEvent.Add(elev_b2[i].Unpress);
                 need_to_visit.Add(false);
+            }
             floor_buttons = floor_b;
             elevator_buttons1 = elev_b1;
             elevator_buttons2 = elev_b2;
@@ -90,9 +102,9 @@ namespace WindowsFormsApp1
             else
                 direction[elev_n - 1] = Direction.UP;
             if (elev_n == 1)
-                CallCabin1(floor);
+                CallCabin1Event(floor);
             else 
-                CallCabin2(floor);
+                CallCabin2Event(floor);
         }
         void GetNewTarget(int elev_n) 
         {
@@ -153,11 +165,12 @@ namespace WindowsFormsApp1
             {
                 cur_floor[elev_n - 1] = floor;
                 need_to_visit[floor - 1] = false;
-                floor_buttons[floor - 1].Unpress();
+                UnpressesFloorButtonEvent[floor - 1].Invoke();
+                //floor_buttons[floor - 1].Unpress();
                 if (elev_n == 1)
-                    elevator_buttons1[floor - 1].Unpress();
+                    UnpressesElev1ButtonEvent[floor - 1].Invoke();
                 else
-                    elevator_buttons2[floor - 1].Unpress();
+                    UnpressesElev2ButtonEvent[floor - 1].Invoke();
 
                 if (cur_floor[elev_n - 1] == target_floor[elev_n - 1])
                 {
@@ -170,7 +183,10 @@ namespace WindowsFormsApp1
                         direction[elev_n - 1] = Direction.DOWN;
                     else
                         direction[elev_n - 1] = Direction.UP;
-                    CallCabin1(floor);
+                    if (elev_n == 1)
+                        CallCabin1Event(floor);
+                    else
+                        CallCabin2Event(floor);
                 }
                 else
                     state[elev_n - 1] = ControllerState.FREE;

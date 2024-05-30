@@ -24,16 +24,16 @@ namespace WindowsFormsApp1
                 controller.elevator_buttons2[i].SetNewTarget += this.controller.SetNewTarget;
 
             cabin1 = new Cabin(1);
-            cabin1.PassFloor += controller.PassFloor;
-            cabin1.ReachFloor += controller.ReachFloor;
+            cabin1.PassFloorEvent += controller.PassFloor;
+            cabin1.ReachFloorEvent += controller.ReachFloor;
 
-            controller.CallCabin1 += cabin1.CallCabin;
+            controller.CallCabin1Event += cabin1.CallCabin;
 
             cabin2 = new Cabin(2);
-            cabin2.PassFloor += controller.PassFloor;
-            cabin2.ReachFloor += controller.ReachFloor;
+            cabin2.PassFloorEvent += controller.PassFloor;
+            cabin2.ReachFloorEvent += controller.ReachFloor;
 
-            controller.CallCabin2 += cabin2.CallCabin;
+            controller.CallCabin2Event += cabin2.CallCabin;
         }
     }
 }
