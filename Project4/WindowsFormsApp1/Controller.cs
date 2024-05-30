@@ -39,6 +39,7 @@ namespace WindowsFormsApp1
         public List<MyButton> elevator_buttons;
 
         public event Cabin.CallCabinDelegate CallCabinEvent;
+        public event UpdateTargetDelegate UpdateTargetEvent;
 
         public List<MyButton.UnpressDelegate> UnpressesFloorButtonEvent;
         public List<MyButton.UnpressDelegate> UnpressesElevButtonEvent;
@@ -60,10 +61,11 @@ namespace WindowsFormsApp1
             }
             floor_buttons = floor_b;
             elevator_buttons = elev_b;
+            UpdateTargetEvent += this.UpdateTarget;
         }
 
         public delegate void SetNewTargetDelegate(int floor);
-        public void SetNewTarget(int floor) // FREE
+        public void SetNewTarget(int floor)
         {
             if (need_to_visit[floor - 1] == true)
                 return;
@@ -93,7 +95,16 @@ namespace WindowsFormsApp1
                 need_to_visit[floor - 1] = false;
                 floor_buttons[floor - 1].Unpress();
                 elevator_buttons[floor - 1].Unpress();
+                state = ControllerState.UPDATING_TARGET;
 
+                UpdateTargetEvent.Invoke(floor);
+            }
+        }
+        public delegate void UpdateTargetDelegate(int floor);
+        public void UpdateTarget(int floor) 
+        {
+            if (state == ControllerState.UPDATING_TARGET)
+            { 
                 if (cur_floor == target_floor)
                 {
                     target_floor = -1;
@@ -105,13 +116,13 @@ namespace WindowsFormsApp1
                         direction = Direction.DOWN;
                     else
                         direction = Direction.UP;
-                    CallCabinEvent(floor);
+                    state = ControllerState.BUSY;
+                    CallCabinEvent.Invoke(floor);
                 }
                 else
                     state = ControllerState.FREE;
             }
         }
-
         void GetNewTarget() 
         {
             if (direction == Direction.UP)

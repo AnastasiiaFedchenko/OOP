@@ -170,7 +170,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1285, 384);
+            this.ClientSize = new System.Drawing.Size(850, 384);
             this.Controls.Add(this.Elevator1GroupBox);
             this.Controls.Add(this.FloorGroupBox);
             this.Name = "Form1";
