@@ -10,30 +10,25 @@ namespace WindowsFormsApp1
     public class Lift
     {
         Controller controller;
-        Cabin cabin1;
-        Cabin cabin2;
-        public Lift(List<MyButton> floor_b, List<MyButton> elev_b1, List<MyButton> elev_b2) 
+        Cabin cabin;
+        public Lift(List<MyButton> floor_b, List<MyButton> elev_b1) 
         {
-            controller = new Controller(floor_b, elev_b1, elev_b2);
-            
+            controller = new Controller(floor_b, elev_b1);
+
             for (int i = 0; i < controller.floor_buttons.Count; i++)
+            {
                 controller.floor_buttons[i].SetNewTarget += this.controller.SetNewTarget;
-            for (int i = 0; i < controller.elevator_buttons1.Count; i++)
-                controller.elevator_buttons1[i].SetNewTarget += this.controller.SetNewTarget;
-            for (int i = 0; i < controller.elevator_buttons2.Count; i++)
-                controller.elevator_buttons2[i].SetNewTarget += this.controller.SetNewTarget;
+            }
+            for (int i = 0; i < controller.elevator_buttons.Count; i++)
+            {
+                controller.elevator_buttons[i].SetNewTarget += this.controller.SetNewTarget;
+            }
 
-            cabin1 = new Cabin(1);
-            cabin1.PassFloorEvent += controller.PassFloor;
-            cabin1.ReachFloorEvent += controller.ReachFloor;
+            cabin = new Cabin();
+            cabin.PassFloorEvent += controller.PassFloor;
+            cabin.ReachFloorEvent += controller.ReachFloor;
 
-            controller.CallCabin1Event += cabin1.CallCabin;
-
-            cabin2 = new Cabin(2);
-            cabin2.PassFloorEvent += controller.PassFloor;
-            cabin2.ReachFloorEvent += controller.ReachFloor;
-
-            controller.CallCabin2Event += cabin2.CallCabin;
+            controller.CallCabinEvent += cabin.CallCabin;
         }
     }
 }
