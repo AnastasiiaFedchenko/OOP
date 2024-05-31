@@ -26,7 +26,7 @@ namespace WindowsFormsApp1
 
             cabin = new Cabin();
             cabin.PassFloorEvent += controller.PassFloor;
-            cabin.ReachFloorEvent += controller.ReachFloor;
+            cabin.UpdateTargetEvent += controller.UpdateTarget;
 
             controller.CallCabinEvent += cabin.CallCabin;
         }

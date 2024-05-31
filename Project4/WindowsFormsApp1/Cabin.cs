@@ -27,7 +27,7 @@ namespace WindowsFormsApp1
         Direction direction;
         public System.Windows.Forms.Timer moveTimer = new System.Windows.Forms.Timer();
         public event PassFloorDelegate PassFloorEvent;
-        public event ReachFloorDelegate ReachFloorEvent;
+        public event UpdateTargetDelegate UpdateTargetEvent;
         public event StopCabinDelegate StopCabinEvent;
         public event Doors.StartOpeningDelegate StartOpeningEvent;
         public event Doors.StartClosingDelegate StartClosingEvent;
@@ -36,9 +36,8 @@ namespace WindowsFormsApp1
         {
             state = CabinState.STOP;
             doors = new Doors();
-            doors.MoveCabinEvent += MoveCabin;
+            doors.MoveCabinEvent += this.MoveCabin;
             StartOpeningEvent += doors.StartOpening;
-            //ReachFloorEvent += doors.StartOpening;
             cur_floor = 1;
             target_floor = -1;
             new_target = false;
@@ -115,7 +114,7 @@ namespace WindowsFormsApp1
                 state = CabinState.STOP;
                 Debug.WriteLine(string.Format("Лифт остановился на этаже №{0}", cur_floor));
                 StartOpeningEvent.Invoke();
-                ReachFloorEvent.Invoke(cur_floor);
+                UpdateTargetEvent.Invoke(cur_floor);
             }
         }
         public delegate void CallCabinDelegate(int floor);
@@ -133,6 +132,7 @@ namespace WindowsFormsApp1
                     direction = Direction.DOWN;
                 else
                     direction = Direction.STAY;
+
                 StartClosingEvent.Invoke();
             }
         }
