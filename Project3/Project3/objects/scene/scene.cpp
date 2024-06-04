@@ -12,7 +12,7 @@ std::size_t Scene::add_object(const std::shared_ptr<BaseObject>& object)
     return object->get_id();
 }
 
-std::size_t Scene::add_camera(const Point& location, const Point& direction)
+std::size_t Scene::add_camera(const My_Point& location, const My_Point& direction)
 {
     auto camera = std::make_shared<Camera>(std::make_shared<CameraData>(location, direction));
     cameras->add(camera);

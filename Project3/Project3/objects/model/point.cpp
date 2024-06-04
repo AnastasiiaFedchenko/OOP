@@ -8,7 +8,7 @@ double toRadians(const double angle)
     return angle * (M_PI / 180);
 }
 
-Point::Point(const double x, const double y, const double z)
+My_Point::My_Point(const double x, const double y, const double z)
 {
     set_x(x);
     set_y(y);
@@ -16,52 +16,52 @@ Point::Point(const double x, const double y, const double z)
 }
 
 
-Point::Point(const Point&& point) noexcept
+My_Point::My_Point(const My_Point&& point) noexcept
 {
     set_x(point.x);
     set_y(point.y);
     set_z(point.z);
 
-    //point.~Point();
+    //point.~My_Point();
 }
 
 
-Point& Point::operator=(Point&& point) noexcept
+My_Point& My_Point::operator=(My_Point&& point) noexcept
 {
     set_x(point.x);
     set_y(point.y);
     set_z(point.z);
 
-    //point.~Point();
+    //point.~My_Point();
 
     return *this;
 }
 
-Point Point::get() const { return (*this); }
+My_Point My_Point::get() const { return (*this); }
 
-double Point::get_x() const { return this->x; }
+double My_Point::get_x() const { return this->x; }
 
-double Point::get_y() const { return this->y; }
+double My_Point::get_y() const { return this->y; }
 
-double Point::get_z() const { return this->z; }
+double My_Point::get_z() const { return this->z; }
 
-void Point::set_x(const double x) { this->x = x; }
+void My_Point::set_x(const double x) { this->x = x; }
 
-void Point::set_y(const double y) { this->y = y; }
+void My_Point::set_y(const double y) { this->y = y; }
 
-void Point::set_z(const double z) { this->z = z; }
+void My_Point::set_z(const double z) { this->z = z; }
 
-bool Point::operator==(const Point& point) const noexcept { return (point.x == x) && (point.y == y) && (point.z == z); }
+bool My_Point::operator==(const My_Point& point) const noexcept { return (point.x == x) && (point.y == y) && (point.z == z); }
 
-bool Point::operator!=(const Point& point) const noexcept { return !(*this == point); }
+bool My_Point::operator!=(const My_Point& point) const noexcept { return !(*this == point); }
 
-bool Point::is_equal(const Point& point) const noexcept { return (*this) == point; }
+bool My_Point::is_equal(const My_Point& point) const noexcept { return (*this) == point; }
 
-bool Point::is_not_equal(const Point& point) const noexcept { return !(*this == point); }
+bool My_Point::is_not_equal(const My_Point& point) const noexcept { return !(*this == point); }
 
-Point Point::operator+(const Point& point) const
+My_Point My_Point::operator+(const My_Point& point) const
 {
-    Point temp{ *this };
+    My_Point temp{ *this };
 
     temp.set_x(temp.x + point.x);
     temp.set_y(temp.y + point.y);
@@ -70,9 +70,9 @@ Point Point::operator+(const Point& point) const
     return temp;
 }
 
-Point Point::operator-(const Point& point) const
+My_Point My_Point::operator-(const My_Point& point) const
 {
-    Point temp{ *this };
+    My_Point temp{ *this };
 
     temp.set_x(temp.x - point.x);
     temp.set_y(temp.y - point.y);
@@ -82,7 +82,7 @@ Point Point::operator-(const Point& point) const
 }
 
 
-void Point::transform(const TransformMatrix& mtr)
+void My_Point::transform(const TransformMatrix& mtr)
 {
     TransformMatrix cur_place ({ {this->x, this->y, this->z, 1} });
     TransformMatrix new_place = cur_place * mtr;
@@ -92,4 +92,4 @@ void Point::transform(const TransformMatrix& mtr)
     this->z = new_place.get(0, 2);
 }
 
-Point Point::get_abs_point(const Point& center) { return (*this) + center; }
+My_Point My_Point::get_abs_point(const My_Point& center) { return (*this) + center; }

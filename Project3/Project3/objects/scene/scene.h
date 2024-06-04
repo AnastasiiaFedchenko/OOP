@@ -15,7 +15,7 @@ public:
     ~Scene() = default;
 
     std::size_t add_object(const std::shared_ptr<BaseObject>& object); // return object id
-    std::size_t add_camera(const Point& location, const Point& direction);  // return camera id
+    std::size_t add_camera(const My_Point& location, const My_Point& direction);  // return camera id
     void delete_object(Iterator& iter);
 
     Iterator get_object_iter(const std::size_t id);

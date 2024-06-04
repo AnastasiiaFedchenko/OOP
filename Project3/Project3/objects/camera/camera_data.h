@@ -5,17 +5,17 @@ class CameraData
 {
 public:
     CameraData() = default;
-    CameraData(const Point& location, const Point& direction) : location(location), direction(direction)
+    CameraData(const My_Point& location, const My_Point& direction) : location(location), direction(direction)
     { }
     ~CameraData() = default;
 
-    Point& get_location();
-    Point& get_direction();
+    My_Point& get_location();
+    My_Point& get_direction();
 
-    void set_location(Point& p);
-    void set_direction(Point& p);
+    void set_location(My_Point& p);
+    void set_direction(My_Point& p);
 
 private:
-    Point location;
-    Point direction;
+    My_Point location;
+    My_Point direction;
 };

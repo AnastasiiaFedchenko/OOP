@@ -6,12 +6,12 @@
 class CarcassModelBuilder : public BaseModelBuilder
 {
 public:
-    CarcassModelBuilder() = default;
+    CarcassModelBuilder(std::shared_ptr<FileReader> reader);
     ~CarcassModelBuilder() = default;
 
     void build() override;
-    void build_point(const Point& point) override;
-    void build_edge(const Edge& edge) override;
+    bool build_point(const My_Point& point) override;
+    bool build_edge(const Edge& edge) override;
     bool build_points();
     bool build_edges();
 
@@ -19,7 +19,8 @@ public:
 
     std::shared_ptr<CarcassModel> get() override;
 private:
-    std::vector<Point> points;
+    std::vector<My_Point> points;
     std::vector<Edge> edges;
+    std::shared_ptr<FileReader> reader;
 };
 

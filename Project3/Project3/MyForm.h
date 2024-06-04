@@ -1,10 +1,17 @@
 #pragma once
 #include <string.h>
+#include "objects/model/point.h"
+#include "objects/canvas.h"
+#include "building_classes/loader_solution.h"
+#include "drawing_classes/win_forms_drawer.h"
 //#include "Controller.h"
 //#include "ChangeStruct.h"
 //#include "Draw.h"
 //#include "Errors.h"
 #include <string>
+#include "drawing_classes/abstract_factory.h"
+#include "drawing_classes/win_forms_factory.h"
+#include "drawing_classes/drawer_solution.h"
 
 namespace Project3 {
 	using namespace std;
@@ -94,6 +101,8 @@ namespace Project3 {
 	private: System::Windows::Forms::Button^ button2;
 	private: System::Windows::Forms::Label^ label11;
 	private: System::Windows::Forms::SaveFileDialog^ saveFileDialog1;
+	private: System::Windows::Forms::PictureBox^ screen;
+
 
 
 	private: System::Windows::Forms::OpenFileDialog^ openFileDialog1;
@@ -137,11 +146,13 @@ namespace Project3 {
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
 			this->saveFileDialog1 = (gcnew System::Windows::Forms::SaveFileDialog());
+			this->screen = (gcnew System::Windows::Forms::PictureBox());
 			this->groupBox1->SuspendLayout();
 			this->groupBox5->SuspendLayout();
 			this->groupBox4->SuspendLayout();
 			this->groupBox3->SuspendLayout();
 			this->groupBox2->SuspendLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->screen))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// groupBox1
@@ -486,6 +497,15 @@ namespace Project3 {
 			// 
 			this->openFileDialog1->FileName = L"openFileDialog1";
 			// 
+			// screen
+			// 
+			this->screen->Location = System::Drawing::Point(528, 12);
+			this->screen->Name = L"screen";
+			this->screen->Size = System::Drawing::Size(1630, 1210);
+			this->screen->TabIndex = 1;
+			this->screen->TabStop = false;
+			this->screen->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MyForm::screen_Paint);
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(12, 25);
@@ -494,6 +514,7 @@ namespace Project3 {
 			this->BackColor = System::Drawing::SystemColors::Window;
 			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::None;
 			this->ClientSize = System::Drawing::Size(2170, 1225);
+			this->Controls->Add(this->screen);
 			this->Controls->Add(this->groupBox1);
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::Fixed3D;
 			this->Name = L"MyForm";
@@ -511,6 +532,7 @@ namespace Project3 {
 			this->groupBox3->PerformLayout();
 			this->groupBox2->ResumeLayout(false);
 			this->groupBox2->PerformLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->screen))->EndInit();
 			this->ResumeLayout(false);
 
 		}
@@ -518,6 +540,9 @@ namespace Project3 {
 	private: System::Void MyForm_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
 		int offset_x = (this->ClientSize.Width - groupBox1->Width) / 2 + groupBox1->Width;
 		int offset_y = this->ClientSize.Height / 2;
+
+		
+		//WinFormsDraw a(e);
 		/*change_t ch{};
 		draw_t ch_draw{};
 		ch.mode = DRAWING;
@@ -526,7 +551,10 @@ namespace Project3 {
 		ch_draw.e = e;
 		error_t rc = controller(&ch, &ch_draw);*/
 	}
-	private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) {
+	private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) 
+	{
+		//SolutionLoader a{};
+		//std::shared_ptr<BaseObject> b = a.load_from_simple_file("../../models/carcass_Cube.txt");
 	}
 	private: Void start_position()
 	{
@@ -600,6 +628,8 @@ namespace Project3 {
 		file_path = file_path->Replace("\\", "/");
 		char* c_path = (char*)(void*)System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(file_path);
 
+		LoaderSolution a{};
+		std::shared_ptr<BaseObject> b = a.load(c_path);
 		/*change_t ch{};
 		ch.mode = LOADING;
 		ch.loading.path = c_path;
@@ -632,6 +662,20 @@ namespace Project3 {
 		}
 		if (c_path)
 			System::Runtime::InteropServices::Marshal::FreeHGlobal((IntPtr)c_path);*/
+	}
+	private: System::Void screen_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) 
+	{
+		System::Drawing::Pen^ pen = gcnew Pen(Color::Fuchsia, 3.f);
+		canvas_t canv = { e->Graphics, pen, Color::White, screen->Width, screen->Height };
+		pin_ptr<canvas_t> ptr = &canv;
+
+		DrawerSolution<WinFormsFactory> sol{};
+		shared_ptr<BaseDrawer> drawer = sol.create_drawer(ptr);
+		//shared_ptr<AbstractFactory> factory = make_shared<WinFormsFactory>(WinFormsFactory(ptr));
+		//shared_ptr<BaseDrawer> drawer = factory->create_drawer();
+		My_Point from(0, 0, 0);
+		My_Point to(100, 100, 0);
+		drawer->draw_line(from, to);
 	}
 };
 }

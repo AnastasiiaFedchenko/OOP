@@ -1,5 +1,7 @@
 #pragma once
 #include "base_reader.h"
+#include "../../objects/model/point.h"
+#include "../../objects/model/edge.h"
 #include <memory>
 #include <fstream>
 
@@ -13,12 +15,17 @@ public:
 
     void open() override;
     void close() override;
-    double read() override;
 
     bool is_open() override;
 
+    std::size_t read_count();
+    My_Point read_point();
+    std::vector<My_Point> read_points();
+    std::vector<Edge> read_edges(int amount_point);
+
 private:
+    bool opened;
     std::string filename;
-    FILE *file = nullptr;
+    std::shared_ptr<std::ifstream> file;
 };
 

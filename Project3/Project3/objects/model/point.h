@@ -1,21 +1,21 @@
 #pragma once
 #include "../../matrix/transform_matrix.h"
 
-class Point
+class My_Point
 {
 public:
-    Point() = default;
-    Point(const double x, const double y, const double z);
+    My_Point() = default;
+    My_Point(const double x, const double y, const double z);
 
-    Point(const Point& p) = default;
-    Point(const Point&& p) noexcept;
+    My_Point(const My_Point& p) = default;
+    My_Point(const My_Point&& p) noexcept;
 
-    Point& operator=(const Point& point) = default;
-    Point& operator=(Point&& point) noexcept;
+    My_Point& operator=(const My_Point& point) = default;
+    My_Point& operator=(My_Point&& point) noexcept;
 
-    ~Point() = default;
+    ~My_Point() = default;
 
-    Point get() const;
+    My_Point get() const;
     double get_x() const;
     double get_y() const;
     double get_z() const;
@@ -24,16 +24,16 @@ public:
     void set_y(double const y);
     void set_z(double const z);
 
-    bool operator==(const Point& point) const noexcept;
-    bool is_equal(const Point& point) const noexcept;
+    bool operator==(const My_Point& point) const noexcept;
+    bool is_equal(const My_Point& point) const noexcept;
 
-    bool operator!=(const Point& point) const noexcept;
-    bool is_not_equal(const Point& point) const noexcept;
+    bool operator!=(const My_Point& point) const noexcept;
+    bool is_not_equal(const My_Point& point) const noexcept;
 
-    Point operator+(const Point& point)  const;
-    Point operator-(const Point& point)  const;
+    My_Point operator+(const My_Point& point)  const;
+    My_Point operator-(const My_Point& point)  const;
 
-    Point get_abs_point(const Point& center);
+    My_Point get_abs_point(const My_Point& center);
 
     void transform(const TransformMatrix& mtr);
 

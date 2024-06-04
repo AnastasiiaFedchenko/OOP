@@ -11,8 +11,9 @@ public:
     explicit Camera(const std::shared_ptr<CameraData>& data) : data(data) { }
     ~Camera() override = default;
 
-    virtual Point get_center() const override;
-    void transform(const TransformMatrix& mtr, const Point& center) override;
+    virtual My_Point get_center() const override;
+    void transform(const TransformMatrix& mtr, const My_Point& center) override;
+    My_Point get_projection(const My_Point& point);
 private:
     std::shared_ptr<CameraData> data;
 };

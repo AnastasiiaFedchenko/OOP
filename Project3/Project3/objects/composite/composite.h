@@ -17,11 +17,11 @@ public:
     virtual bool is_visible() override;
     virtual bool is_composite() override;
 
-    virtual Point get_center() const override;
-    virtual void move_elems_to_origin(const Point& center) override;
-    virtual void move_elems_to_center(const Point& center) override;
+    virtual My_Point get_center() const override;
+    virtual void move_elems_to_origin(const My_Point& center) override;
+    virtual void move_elems_to_center(const My_Point& center) override;
     virtual void transform_elems(const TransformMatrix& mtr) override;
-    virtual void transform(const TransformMatrix& mtr, const Point& center) override;
+    virtual void transform(const TransformMatrix& mtr, const My_Point& center) override;
 
     virtual Iterator begin() override;
     virtual Iterator end() override;

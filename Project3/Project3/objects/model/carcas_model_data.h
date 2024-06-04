@@ -8,27 +8,27 @@ class CarcassModelData
 {
 public:
     CarcassModelData() = default;
-    CarcassModelData(std::vector<Point>& points, std::vector<Edge>& edges);
-    CarcassModelData(std::vector<Point>& points, std::vector<Edge>& edges, Point& center_p);
+    CarcassModelData(std::vector<My_Point>& points, std::vector<Edge>& edges);
+    CarcassModelData(std::vector<My_Point>& points, std::vector<Edge>& edges, My_Point& center_p);
 
     ~CarcassModelData() = default;
 
-    const std::vector<Point>& get_points() const;
+    const std::vector<My_Point>& get_points() const;
     const std::vector<Edge>& get_edges() const;
-    const Point get_center() const;
+    const My_Point get_center() const;
 
-    void add_point(const Point& point);
+    void add_point(const My_Point& point);
     void add_edge(const Edge& edge);
     void update_center();
 
-    void move_points_to_origin(const Point& center);
-    void move_points_to_center(const Point& center);
+    void move_points_to_origin(const My_Point& center);
+    void move_points_to_center(const My_Point& center);
     void transform_points(const TransformMatrix& mtr);
-    void transform(const TransformMatrix& mtr, const Point& center);
+    void transform(const TransformMatrix& mtr, const My_Point& center);
 
 private:
-    Point center_p;
+    My_Point center_p;
 
-    std::vector<Point> points;
+    std::vector<My_Point> points;
     std::vector<Edge> edges;
 };

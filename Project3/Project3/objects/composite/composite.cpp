@@ -33,12 +33,12 @@ bool Composite::remove(const Iterator& iter)
 
 void Composite::update_center()
 {
-    center_p = Point(0, 0, 0);
+    center_p = My_Point(0, 0, 0);
 
     for (const auto& element : elements)
         center_p = center_p + element->get_center();
 
-    center_p = Point(center_p.get_x() / elements.size(),
+    center_p = My_Point(center_p.get_x() / elements.size(),
                      center_p.get_y() / elements.size(),
                      center_p.get_z() / elements.size());
 }
@@ -47,11 +47,11 @@ bool Composite::is_visible() { return false; }
 
 bool Composite::is_composite() { return true; }
 
-Point Composite::get_center() const { return center_p; }
+My_Point Composite::get_center() const { return center_p; }
 
-void Composite::move_elems_to_origin(const Point& center)
+void Composite::move_elems_to_origin(const My_Point& center)
 {
-    Point diff = Point(0, 0, 0) - center;
+    My_Point diff = My_Point(0, 0, 0) - center;
 
     TransformMatrix mtr(4, 4);
     mtr = { { 1, 0, 0, 0 },
@@ -63,9 +63,9 @@ void Composite::move_elems_to_origin(const Point& center)
     this->update_center();
 }
 
-void Composite::move_elems_to_center(const Point& center)
+void Composite::move_elems_to_center(const My_Point& center)
 {
-    Point diff = center - center_p;
+    My_Point diff = center - center_p;
 
     TransformMatrix mtr(4, 4);
     mtr = { { 1, 0, 0, 0 },
@@ -86,7 +86,7 @@ void Composite::transform_elems(const TransformMatrix& mtr)
     }
 }
 
-void Composite::transform(const TransformMatrix& mtr, const Point& center)
+void Composite::transform(const TransformMatrix& mtr, const My_Point& center)
 {
     update_center();
 

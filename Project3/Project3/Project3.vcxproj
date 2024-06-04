@@ -125,6 +125,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="building_classes\camera\camera_builder.cpp" />
+    <ClCompile Include="building_classes\camera\camera_director.cpp" />
     <ClCompile Include="building_classes\model\carcass_director.cpp" />
     <ClCompile Include="building_classes\model\carcass_model_builder.cpp" />
     <ClCompile Include="building_classes\reader\file_reader.cpp" />
@@ -147,6 +148,8 @@
     <ClInclude Include="building_classes\base_director.h" />
     <ClInclude Include="building_classes\camera\base_camera_builder.h" />
     <ClInclude Include="building_classes\camera\camera_builder.h" />
+    <ClInclude Include="building_classes\camera\camera_director.h" />
+    <ClInclude Include="building_classes\director_creator.h" />
     <ClInclude Include="building_classes\loader_solution.h" />
     <ClInclude Include="building_classes\model\base_model_builder.h" />
     <ClInclude Include="building_classes\model\carcass_director.h" />
@@ -155,6 +158,16 @@
     <ClInclude Include="building_classes\reader\file_reader.h" />
     <ClInclude Include="building_classes\scene\base_scene_builder.h" />
     <ClInclude Include="building_classes\scene\scene_builder.h" />
+    <ClInclude Include="drawing_classes\abstract_factory.h" />
+    <ClInclude Include="drawing_classes\base_drawer.h" />
+    <ClInclude Include="drawing_classes\drawer_solution.h" />
+    <ClInclude Include="drawing_classes\win_forms_drawer.h" />
+    <ClInclude Include="drawing_classes\win_forms_factory.h" />
+    <ClInclude Include="managers\base_managers.h" />
+    <ClInclude Include="managers\draw_manager.h" />
+    <ClInclude Include="managers\load_manager.h" />
+    <ClInclude Include="managers\model_adapter.h" />
+    <ClInclude Include="managers\model_visitor.h" />
     <ClInclude Include="matrix\transform_matrix.h" />
     <ClInclude Include="MyForm.h">
       <FileType>CppForm</FileType>
@@ -162,6 +175,7 @@
     <ClInclude Include="objects\base_object.h" />
     <ClInclude Include="objects\camera\camera.h" />
     <ClInclude Include="objects\camera\camera_data.h" />
+    <ClInclude Include="objects\canvas.h" />
     <ClInclude Include="objects\composite\composite.h" />
     <ClInclude Include="objects\model\base_model.h" />
     <ClInclude Include="objects\model\carcas_model.h" />
@@ -174,6 +188,9 @@
     <EmbeddedResource Include="MyForm.resx">
       <DependentUpon>MyForm.h</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="models\carcass_Cube.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

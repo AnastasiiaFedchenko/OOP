@@ -14,13 +14,13 @@ public:
     ~BaseModelBuilder() = default;
 
     virtual void build() override = 0;
-    virtual void build_point(const Point& point) = 0;
-    virtual void build_edge(const Edge& edge) = 0;
+    virtual bool build_point(const My_Point& point) = 0;
+    virtual bool build_edge(const Edge& edge) = 0;
     virtual bool is_build() const override = 0;
 
     virtual std::shared_ptr<CarcassModel> get() = 0;
 
 protected:
-    std::shared_ptr<CarcassModelData> model;
+    std::shared_ptr<CarcassModel> model;
     std::shared_ptr<FileReader> reader;
 };
