@@ -27,7 +27,8 @@ TransformMatrix& TransformMatrix::operator =(std::initializer_list<std::initiali
 
 TransformMatrix& TransformMatrix::operator=(const TransformMatrix& temp)
 {
-	(*this) = temp;
+	this->matrix = temp.matrix;
+	//(*this) = temp;
 	return *this; 
 }
 

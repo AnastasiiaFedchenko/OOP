@@ -23,12 +23,18 @@ bool Composite::add(const std::shared_ptr<BaseObject>& element)
 }
 
 
-bool Composite::remove(const Iterator& iter)
+bool Composite::remove(const std::size_t& id)
 {
-    elements.erase(iter);
-    update_center();
-
-    return true;
+    for (int i = 0; i < elements.size(); i++)
+    {
+        if (elements[i]->get_id() == id)
+        {
+            elements.erase(std::next(elements.begin(), i));
+            update_center();
+            return true;
+        }
+    }
+    return false;
 }
 
 void Composite::update_center()
@@ -46,6 +52,14 @@ void Composite::update_center()
 bool Composite::is_visible() { return false; }
 
 bool Composite::is_composite() { return true; }
+
+std::shared_ptr<BaseObject> Composite::get(const std::size_t& id) 
+{ 
+    for (int i = 0; i < elements.size(); i++)
+        if (elements[i]->get_id() == id)
+            return elements[i];
+    return nullptr;
+}
 
 My_Point Composite::get_center() const { return center_p; }
 

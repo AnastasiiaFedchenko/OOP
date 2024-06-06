@@ -141,6 +141,8 @@
     <ClCompile Include="objects\model\edge.cpp" />
     <ClCompile Include="objects\model\point.cpp" />
     <ClCompile Include="objects\scene\scene.cpp" />
+    <ClCompile Include="visitor\draw_all.cpp" />
+    <ClCompile Include="visitor\draw_visitor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="base_solution.h" />
@@ -158,16 +160,21 @@
     <ClInclude Include="building_classes\reader\file_reader.h" />
     <ClInclude Include="building_classes\scene\base_scene_builder.h" />
     <ClInclude Include="building_classes\scene\scene_builder.h" />
+    <ClInclude Include="commands\base_command.h" />
+    <ClInclude Include="commands\base_draw_command.h" />
+    <ClInclude Include="commands\base_load_command.h" />
+    <ClInclude Include="commands\base_scene_command.h" />
     <ClInclude Include="drawing_classes\abstract_factory.h" />
     <ClInclude Include="drawing_classes\base_drawer.h" />
     <ClInclude Include="drawing_classes\drawer_solution.h" />
     <ClInclude Include="drawing_classes\win_forms_drawer.h" />
     <ClInclude Include="drawing_classes\win_forms_factory.h" />
+    <ClInclude Include="facade.h" />
     <ClInclude Include="managers\base_managers.h" />
     <ClInclude Include="managers\draw_manager.h" />
+    <ClInclude Include="managers\facade.h" />
     <ClInclude Include="managers\load_manager.h" />
-    <ClInclude Include="managers\model_adapter.h" />
-    <ClInclude Include="managers\model_visitor.h" />
+    <ClInclude Include="managers\scene_manager.h" />
     <ClInclude Include="matrix\transform_matrix.h" />
     <ClInclude Include="MyForm.h">
       <FileType>CppForm</FileType>
@@ -183,6 +190,9 @@
     <ClInclude Include="objects\model\edge.h" />
     <ClInclude Include="objects\model\point.h" />
     <ClInclude Include="objects\scene\scene.h" />
+    <ClInclude Include="visitor\abstract_visitor.h" />
+    <ClInclude Include="visitor\draw_all.h" />
+    <ClInclude Include="visitor\draw_visitor.h" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MyForm.resx">

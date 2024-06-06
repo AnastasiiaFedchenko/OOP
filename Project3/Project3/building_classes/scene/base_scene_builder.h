@@ -11,7 +11,8 @@ public:
     ~BaseSceneBuilder() = default;
 
     virtual void build() override = 0;
-    virtual void buildObject(const std::shared_ptr<BaseObject>& object) = 0;
+    virtual void build_model(const std::shared_ptr<BaseModel>& model) = 0;
+    virtual void build_camera(const std::shared_ptr<Camera>& camera) = 0;
     virtual bool is_build() const override = 0;
 
     virtual std::shared_ptr<Scene> get() = 0;

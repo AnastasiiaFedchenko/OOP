@@ -35,7 +35,7 @@ void CarcassModelData::move_points_to_origin(const My_Point& center)
 {
     My_Point diff = My_Point(0, 0, 0) - center;
 
-    TransformMatrix mtr(4, 4);
+    TransformMatrix mtr{};
     mtr = { { 1, 0, 0, 0 },
             { 0, 1, 0, 0 },
             { 0, 0, 1, 0 },
@@ -49,7 +49,7 @@ void CarcassModelData::move_points_to_center(const My_Point& center)
 {
     My_Point diff = center - My_Point(0, 0, 0);
 
-    TransformMatrix mtr(4, 4);
+    TransformMatrix mtr{};
     mtr = { { 1, 0, 0, 0 },
             { 0, 1, 0, 0 },
             { 0, 0, 1, 0 },

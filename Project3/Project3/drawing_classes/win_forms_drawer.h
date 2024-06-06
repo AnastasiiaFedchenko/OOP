@@ -10,8 +10,10 @@ public:
     WinFormsDrawer(canvas_t* canv) : canvas(canv) {}
     void draw_line(My_Point p1, My_Point p2) override
     {
-        canvas->g->DrawLine(canvas->pen, (int)p1.get_x(), (int)p1.get_y(), 
-            (int)p2.get_x(), (int)p2.get_y());
+        int offset_x = (int)(canvas->width / 2);
+        int offset_y = (int)(canvas->height / 2);
+        canvas->g->DrawLine(canvas->pen, (int)p1.get_x() + offset_x, (int)p1.get_y() + offset_y, 
+            (int)p2.get_x() + offset_x, (int)p2.get_y() + offset_y);
     }
     void clear_scene() override
     {

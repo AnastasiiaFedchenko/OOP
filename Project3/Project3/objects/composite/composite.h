@@ -10,7 +10,7 @@ public:
     explicit Composite(const std::vector<std::shared_ptr<BaseObject>>& vector);
 
     virtual bool add(const std::shared_ptr<BaseObject>& element) override;
-    virtual bool remove(const Iterator& iter) override;
+    virtual bool remove(const std::size_t& id) override;
 
     virtual void update_center() override;
 
@@ -18,6 +18,7 @@ public:
     virtual bool is_composite() override;
 
     virtual My_Point get_center() const override;
+    virtual std::shared_ptr<BaseObject> get(const std::size_t& id);
     virtual void move_elems_to_origin(const My_Point& center) override;
     virtual void move_elems_to_center(const My_Point& center) override;
     virtual void transform_elems(const TransformMatrix& mtr) override;

@@ -5,53 +5,52 @@ Scene::Scene() : models(new Composite), cameras(new Composite) { }
 std::size_t Scene::add_object(const std::shared_ptr<BaseObject>& object)
 {
     if (object->is_visible())
+    {
         models->add(object);
+    }
     else
+    {
         cameras->add(object);
-
+    }
     return object->get_id();
 }
 
-std::size_t Scene::add_camera(const My_Point& location, const My_Point& direction)
+std::size_t Scene::add_model(const std::shared_ptr<BaseModel>& model)
 {
-    auto camera = std::make_shared<Camera>(std::make_shared<CameraData>(location, direction));
+    models->add(model);
+
+    return model->get_id();
+}
+
+std::size_t Scene::add_camera(const std::shared_ptr<Camera>& camera)
+{
     cameras->add(camera);
 
     return camera->get_id();
 }
 
-void Scene::delete_object(Iterator& iter)
+void Scene::delete_model(const std::size_t &id_model)
 {
-    if ((*iter)->is_visible())
-        models->remove(iter);
-    else
-        cameras->remove(iter);
+    models->remove(id_model);
 }
 
-Iterator Scene::get_object_iter(const std::size_t id)
+void Scene::delete_camera(const std::size_t& id_camera)
 {
-    auto iter = begin_m();
-    for (; iter != end_m() && (*iter)->get_id() != id; ++iter);
-
-    if (iter == end_m())
-    {
-        iter = begin_c();
-        for (; iter != end_c() && (*iter)->get_id() != id; ++iter);
-    }
-
-    return iter;
+    cameras->remove(id_camera);
 }
 
-std::shared_ptr<BaseObject> Scene::get_object(const std::size_t id) { return *get_object_iter(id); }
+std::shared_ptr<BaseObject> Scene::get_model(const std::size_t& id_model)
+{
+    return models->get(id_model);
+}
+
+std::shared_ptr<BaseObject> Scene::get_camera(const std::size_t& id_camera)
+{
+    return cameras->get(id_camera);
+}
+
+//std::shared_ptr<BaseObject> Scene::get_object(const std::size_t id) { return *get_object_iter(id); }
 
 std::shared_ptr<Composite> Scene::get_models() { return models; }
 
 std::shared_ptr<Composite> Scene::get_cameras() { return cameras; }
-
-Iterator Scene::begin_m() { return models->begin(); }
-
-Iterator Scene::end_m() { return models->end(); }
-
-Iterator Scene::begin_c() { return cameras->begin(); }
-
-Iterator Scene::end_c() { return cameras->end(); }

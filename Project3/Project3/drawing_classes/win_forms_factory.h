@@ -7,7 +7,10 @@
 class WinFormsFactory : public AbstractFactory
 {
 public:
-    explicit WinFormsFactory(canvas_t* canv) : canvas(canv) {}
+    explicit WinFormsFactory(canvas_t* canv) 
+    {
+        this->canvas = canv;
+    }
     std::shared_ptr<BaseDrawer> create_drawer() override
     {
         return std::make_shared<WinFormsDrawer>(canvas);

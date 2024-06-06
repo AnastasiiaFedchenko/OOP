@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include <vector>
+#include "../visitor/abstract_visitor.h"
 #include "model/point.h"
 
 class BaseObject;
@@ -16,7 +17,7 @@ public:
     virtual ~BaseObject() = default;
 
     virtual bool add(const std::shared_ptr<BaseObject>&) { return false; };
-    virtual bool remove(const Iterator&) { return false; };
+    virtual bool remove(const std::size_t& id) { return false; };
     virtual void update_center() {};
 
     virtual bool is_visible() { return false; };
@@ -27,6 +28,10 @@ public:
     virtual void move_elems_to_center(const My_Point& p) { }
     virtual void transform_elems(const TransformMatrix& temp) { }
     virtual void transform(const TransformMatrix& mtr, const My_Point& center_p) = 0;
+    virtual void accept(std::shared_ptr<AbstractVisitor> visitor)
+    {
+        visitor->visit(*this);
+    }
 
     virtual Iterator begin() { return Iterator(); };
     virtual Iterator end() { return Iterator(); };
