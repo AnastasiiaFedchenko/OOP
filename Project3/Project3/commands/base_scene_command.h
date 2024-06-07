@@ -150,6 +150,27 @@ private:
     Action method;
 };
 
+class DeleteObjectCommand : public BaseSceneCommand
+{
+    using Action = void(SceneManager::*)(const std::size_t& id_object);
+
+public:
+    DeleteObjectCommand(const std::size_t& id_object)
+    {
+        this->id_object = id_object;
+        method = &SceneManager::delete_object;
+    }
+    virtual void execute() override
+    {
+        ((*scene_manager).*method)(id_object);
+    }
+
+private:
+    std::size_t id_object;
+    Action method;
+};
+
+
 class DeleteModelCommand : public BaseSceneCommand
 {
     using Action = void(SceneManager::*)(const std::size_t& id_object);

@@ -29,6 +29,12 @@ std::size_t Scene::add_camera(const std::shared_ptr<Camera>& camera)
     return camera->get_id();
 }
 
+void Scene::delete_object(const std::size_t& id_object)
+{
+    if (models->remove(id_object) == false)
+        cameras->remove(id_object);
+}
+
 void Scene::delete_model(const std::size_t &id_model)
 {
     models->remove(id_model);

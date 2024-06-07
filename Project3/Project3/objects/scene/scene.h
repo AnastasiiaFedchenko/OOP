@@ -19,6 +19,7 @@ public:
     std::size_t add_object(const std::shared_ptr<BaseObject>& object);
     std::size_t add_model(const std::shared_ptr<BaseModel>& model); // return model id
     std::size_t add_camera(const std::shared_ptr<Camera>& camera);  // return camera id
+    void delete_object(const std::size_t& id_object);
     void delete_model(const std::size_t& id_model);
     void delete_camera(const std::size_t& id_camera);
 

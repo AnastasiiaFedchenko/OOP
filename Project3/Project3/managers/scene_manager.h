@@ -28,6 +28,7 @@ public:
     std::size_t add_model(std::shared_ptr<BaseModel>& object) { return scene->add_model(object); }
     std::size_t add_camera(std::shared_ptr<Camera>& object) { return scene->add_camera(object); }
 
+    void delete_object(const std::size_t& id_object) { scene->delete_object(id_object); }
     void delete_model(const std::size_t& id_object) { scene->delete_model(id_object); }
     void delete_camera(const std::size_t& id_camera)
     {

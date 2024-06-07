@@ -94,7 +94,7 @@ namespace Project3 {
 	private: System::Windows::Forms::Label^ label5;
 	private: System::Windows::Forms::Label^ label6;
 	private: System::Windows::Forms::GroupBox^ groupBox3;
-	private: System::Windows::Forms::Button^ RotateButton;
+
 	private: System::Windows::Forms::TextBox^ RotationZTextBox;
 
 
@@ -125,14 +125,17 @@ namespace Project3 {
 
 
 	private: System::Windows::Forms::OpenFileDialog^ openFileDialog1;
-	private: System::Windows::Forms::Button^ button5;
-	private: System::Windows::Forms::Button^ button4;
-	private: System::Windows::Forms::Button^ button3;
+
+
+
 	private: System::Drawing::Bitmap^ bitmap;
 	private: static System::Drawing::Graphics^ graphics;
 	private: System::Drawing::Pen^ pen;
 	private: System::Drawing::Brush^ brush;
 	private: System::Windows::Forms::CheckedListBox^ checkedListBox1;
+	private: System::Windows::Forms::Button^ RotateButton;
+	private: System::Windows::Forms::Button^ button3;
+	private: System::Windows::Forms::Button^ button2;
 	private: canvas_t canv;
 	//private: pin_ptr<canvas_t> ptr;
 
@@ -146,7 +149,6 @@ namespace Project3 {
 		{
 			this->groupBox1 = (gcnew System::Windows::Forms::GroupBox());
 			this->groupBox5 = (gcnew System::Windows::Forms::GroupBox());
-			this->button5 = (gcnew System::Windows::Forms::Button());
 			this->ScaleButton = (gcnew System::Windows::Forms::Button());
 			this->ScaleZTextBox = (gcnew System::Windows::Forms::TextBox());
 			this->ScaleYTextBox = (gcnew System::Windows::Forms::TextBox());
@@ -155,7 +157,6 @@ namespace Project3 {
 			this->label8 = (gcnew System::Windows::Forms::Label());
 			this->label9 = (gcnew System::Windows::Forms::Label());
 			this->groupBox4 = (gcnew System::Windows::Forms::GroupBox());
-			this->button4 = (gcnew System::Windows::Forms::Button());
 			this->ShiftButton = (gcnew System::Windows::Forms::Button());
 			this->ShiftZTextBox = (gcnew System::Windows::Forms::TextBox());
 			this->ShiftYTextBox = (gcnew System::Windows::Forms::TextBox());
@@ -164,7 +165,6 @@ namespace Project3 {
 			this->label5 = (gcnew System::Windows::Forms::Label());
 			this->label6 = (gcnew System::Windows::Forms::Label());
 			this->groupBox3 = (gcnew System::Windows::Forms::GroupBox());
-			this->button3 = (gcnew System::Windows::Forms::Button());
 			this->RotateButton = (gcnew System::Windows::Forms::Button());
 			this->RotationZTextBox = (gcnew System::Windows::Forms::TextBox());
 			this->RotationYTextBox = (gcnew System::Windows::Forms::TextBox());
@@ -173,12 +173,14 @@ namespace Project3 {
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->groupBox2 = (gcnew System::Windows::Forms::GroupBox());
+			this->button3 = (gcnew System::Windows::Forms::Button());
+			this->button2 = (gcnew System::Windows::Forms::Button());
+			this->checkedListBox1 = (gcnew System::Windows::Forms::CheckedListBox());
 			this->label10 = (gcnew System::Windows::Forms::Label());
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
 			this->saveFileDialog1 = (gcnew System::Windows::Forms::SaveFileDialog());
 			this->screen = (gcnew System::Windows::Forms::PictureBox());
-			this->checkedListBox1 = (gcnew System::Windows::Forms::CheckedListBox());
 			this->groupBox1->SuspendLayout();
 			this->groupBox5->SuspendLayout();
 			this->groupBox4->SuspendLayout();
@@ -206,7 +208,6 @@ namespace Project3 {
 			// groupBox5
 			// 
 			this->groupBox5->BackColor = System::Drawing::Color::PeachPuff;
-			this->groupBox5->Controls->Add(this->button5);
 			this->groupBox5->Controls->Add(this->ScaleButton);
 			this->groupBox5->Controls->Add(this->ScaleZTextBox);
 			this->groupBox5->Controls->Add(this->ScaleYTextBox);
@@ -215,25 +216,12 @@ namespace Project3 {
 			this->groupBox5->Controls->Add(this->label8);
 			this->groupBox5->Controls->Add(this->label9);
 			this->groupBox5->Font = (gcnew System::Drawing::Font(L"Arial", 13.875F));
-			this->groupBox5->Location = System::Drawing::Point(6, 958);
+			this->groupBox5->Location = System::Drawing::Point(6, 1008);
 			this->groupBox5->Name = L"groupBox5";
-			this->groupBox5->Size = System::Drawing::Size(488, 246);
+			this->groupBox5->Size = System::Drawing::Size(488, 193);
 			this->groupBox5->TabIndex = 3;
 			this->groupBox5->TabStop = false;
 			this->groupBox5->Text = L"Масштабирование";
-			// 
-			// button5
-			// 
-			this->button5->BackColor = System::Drawing::Color::YellowGreen;
-			this->button5->Font = (gcnew System::Drawing::Font(L"Arial", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(204)));
-			this->button5->ForeColor = System::Drawing::Color::Black;
-			this->button5->Location = System::Drawing::Point(12, 192);
-			this->button5->Name = L"button5";
-			this->button5->Size = System::Drawing::Size(465, 51);
-			this->button5->TabIndex = 5;
-			this->button5->Text = L"Масштабировать всё";
-			this->button5->UseVisualStyleBackColor = false;
 			// 
 			// ScaleButton
 			// 
@@ -318,7 +306,6 @@ namespace Project3 {
 			// groupBox4
 			// 
 			this->groupBox4->BackColor = System::Drawing::Color::PeachPuff;
-			this->groupBox4->Controls->Add(this->button4);
 			this->groupBox4->Controls->Add(this->ShiftButton);
 			this->groupBox4->Controls->Add(this->ShiftZTextBox);
 			this->groupBox4->Controls->Add(this->ShiftYTextBox);
@@ -327,25 +314,12 @@ namespace Project3 {
 			this->groupBox4->Controls->Add(this->label5);
 			this->groupBox4->Controls->Add(this->label6);
 			this->groupBox4->Font = (gcnew System::Drawing::Font(L"Arial", 13.875F));
-			this->groupBox4->Location = System::Drawing::Point(6, 753);
+			this->groupBox4->Location = System::Drawing::Point(6, 811);
 			this->groupBox4->Name = L"groupBox4";
-			this->groupBox4->Size = System::Drawing::Size(488, 199);
+			this->groupBox4->Size = System::Drawing::Size(488, 191);
 			this->groupBox4->TabIndex = 2;
 			this->groupBox4->TabStop = false;
 			this->groupBox4->Text = L"Перенос";
-			// 
-			// button4
-			// 
-			this->button4->BackColor = System::Drawing::Color::YellowGreen;
-			this->button4->Font = (gcnew System::Drawing::Font(L"Arial", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(204)));
-			this->button4->ForeColor = System::Drawing::Color::Black;
-			this->button4->Location = System::Drawing::Point(218, 135);
-			this->button4->Name = L"button4";
-			this->button4->Size = System::Drawing::Size(259, 47);
-			this->button4->TabIndex = 5;
-			this->button4->Text = L"Перенести всё";
-			this->button4->UseVisualStyleBackColor = false;
 			// 
 			// ShiftButton
 			// 
@@ -355,7 +329,7 @@ namespace Project3 {
 			this->ShiftButton->ForeColor = System::Drawing::Color::Black;
 			this->ShiftButton->Location = System::Drawing::Point(12, 135);
 			this->ShiftButton->Name = L"ShiftButton";
-			this->ShiftButton->Size = System::Drawing::Size(200, 47);
+			this->ShiftButton->Size = System::Drawing::Size(466, 47);
 			this->ShiftButton->TabIndex = 1;
 			this->ShiftButton->Text = L"Перенести";
 			this->ShiftButton->UseVisualStyleBackColor = false;
@@ -430,7 +404,6 @@ namespace Project3 {
 			// groupBox3
 			// 
 			this->groupBox3->BackColor = System::Drawing::Color::PeachPuff;
-			this->groupBox3->Controls->Add(this->button3);
 			this->groupBox3->Controls->Add(this->RotateButton);
 			this->groupBox3->Controls->Add(this->RotationZTextBox);
 			this->groupBox3->Controls->Add(this->RotationYTextBox);
@@ -439,25 +412,12 @@ namespace Project3 {
 			this->groupBox3->Controls->Add(this->label2);
 			this->groupBox3->Controls->Add(this->label1);
 			this->groupBox3->Font = (gcnew System::Drawing::Font(L"Arial", 13.875F));
-			this->groupBox3->Location = System::Drawing::Point(5, 557);
+			this->groupBox3->Location = System::Drawing::Point(5, 615);
 			this->groupBox3->Name = L"groupBox3";
 			this->groupBox3->Size = System::Drawing::Size(488, 190);
 			this->groupBox3->TabIndex = 1;
 			this->groupBox3->TabStop = false;
 			this->groupBox3->Text = L"Поворот (градусы)";
-			// 
-			// button3
-			// 
-			this->button3->BackColor = System::Drawing::Color::YellowGreen;
-			this->button3->Font = (gcnew System::Drawing::Font(L"Arial", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(204)));
-			this->button3->ForeColor = System::Drawing::Color::Black;
-			this->button3->Location = System::Drawing::Point(218, 135);
-			this->button3->Name = L"button3";
-			this->button3->Size = System::Drawing::Size(260, 47);
-			this->button3->TabIndex = 5;
-			this->button3->Text = L"Повернуть всё";
-			this->button3->UseVisualStyleBackColor = false;
 			// 
 			// RotateButton
 			// 
@@ -467,7 +427,7 @@ namespace Project3 {
 			this->RotateButton->ForeColor = System::Drawing::Color::Black;
 			this->RotateButton->Location = System::Drawing::Point(13, 135);
 			this->RotateButton->Name = L"RotateButton";
-			this->RotateButton->Size = System::Drawing::Size(199, 47);
+			this->RotateButton->Size = System::Drawing::Size(464, 47);
 			this->RotateButton->TabIndex = 1;
 			this->RotateButton->Text = L"Повернуть";
 			this->RotateButton->UseVisualStyleBackColor = false;
@@ -542,16 +502,54 @@ namespace Project3 {
 			// groupBox2
 			// 
 			this->groupBox2->BackColor = System::Drawing::Color::PeachPuff;
+			this->groupBox2->Controls->Add(this->button3);
+			this->groupBox2->Controls->Add(this->button2);
 			this->groupBox2->Controls->Add(this->checkedListBox1);
 			this->groupBox2->Controls->Add(this->label10);
 			this->groupBox2->Controls->Add(this->button1);
 			this->groupBox2->Font = (gcnew System::Drawing::Font(L"Arial", 13.875F));
 			this->groupBox2->Location = System::Drawing::Point(6, 67);
 			this->groupBox2->Name = L"groupBox2";
-			this->groupBox2->Size = System::Drawing::Size(488, 484);
+			this->groupBox2->Size = System::Drawing::Size(488, 542);
 			this->groupBox2->TabIndex = 1;
 			this->groupBox2->TabStop = false;
 			this->groupBox2->Text = L"Модель";
+			// 
+			// button3
+			// 
+			this->button3->BackColor = System::Drawing::Color::YellowGreen;
+			this->button3->Font = (gcnew System::Drawing::Font(L"Arial", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->button3->ForeColor = System::Drawing::Color::Black;
+			this->button3->Location = System::Drawing::Point(14, 489);
+			this->button3->Name = L"button3";
+			this->button3->Size = System::Drawing::Size(464, 47);
+			this->button3->TabIndex = 4;
+			this->button3->Text = L"Отчистить всё";
+			this->button3->UseVisualStyleBackColor = false;
+			this->button3->Click += gcnew System::EventHandler(this, &MyForm::button3_Click);
+			// 
+			// button2
+			// 
+			this->button2->BackColor = System::Drawing::Color::YellowGreen;
+			this->button2->Font = (gcnew System::Drawing::Font(L"Arial", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->button2->ForeColor = System::Drawing::Color::Black;
+			this->button2->Location = System::Drawing::Point(14, 439);
+			this->button2->Name = L"button2";
+			this->button2->Size = System::Drawing::Size(464, 47);
+			this->button2->TabIndex = 3;
+			this->button2->Text = L"Удалить";
+			this->button2->UseVisualStyleBackColor = false;
+			this->button2->Click += gcnew System::EventHandler(this, &MyForm::button2_Click_1);
+			// 
+			// checkedListBox1
+			// 
+			this->checkedListBox1->FormattingEnabled = true;
+			this->checkedListBox1->Location = System::Drawing::Point(13, 147);
+			this->checkedListBox1->Name = L"checkedListBox1";
+			this->checkedListBox1->Size = System::Drawing::Size(463, 286);
+			this->checkedListBox1->TabIndex = 2;
 			// 
 			// label10
 			// 
@@ -590,14 +588,6 @@ namespace Project3 {
 			this->screen->TabIndex = 1;
 			this->screen->TabStop = false;
 			this->screen->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MyForm::screen_Paint);
-			// 
-			// checkedListBox1
-			// 
-			this->checkedListBox1->FormattingEnabled = true;
-			this->checkedListBox1->Location = System::Drawing::Point(13, 147);
-			this->checkedListBox1->Name = L"checkedListBox1";
-			this->checkedListBox1->Size = System::Drawing::Size(463, 333);
-			this->checkedListBox1->TabIndex = 2;
 			// 
 			// MyForm
 			// 
@@ -772,6 +762,41 @@ namespace Project3 {
 			facade->execute(cmd2);
 		}
 		g->DrawImage(bitmap, 0, 0);
+	}
+	private: System::Void button2_Click_1(System::Object^ sender, System::EventArgs^ e) 
+	{
+		//std::vector<size_t> models;
+		//std::vector<size_t> cameras;
+		auto checked = checkedListBox1->CheckedItems;
+
+		for (int i = 0; i < checked->Count; i++)
+		{
+			String^ s = checked[i]->ToString();
+			string str = msclr::interop::marshal_as<std::string>(s);
+			size_t result = (size_t)atoi(str.c_str());
+	
+			DeleteObjectCommand cmd(result);
+			facade->execute(cmd);
+			checkedListBox1->Items->Remove(checked[i]);
+		}
+		screen->Invalidate();
+	}
+	private: System::Void button3_Click(System::Object^ sender, System::EventArgs^ e) 
+	{
+		auto items = checkedListBox1->Items;
+
+		size_t original_amount = items->Count;
+		for (int i = 0; i < original_amount; i++)
+		{
+			String^ s = items[0]->ToString();
+			string str = msclr::interop::marshal_as<std::string>(s);
+			size_t result = (size_t)atoi(str.c_str());
+
+			DeleteObjectCommand cmd(result);
+			facade->execute(cmd);
+			checkedListBox1->Items->Remove(items[0]);
+		}
+		screen->Invalidate();
 	}
 };
 }
