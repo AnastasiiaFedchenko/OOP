@@ -81,15 +81,4 @@ My_Point My_Point::operator-(const My_Point& point) const
     return temp;
 }
 
-
-void My_Point::transform(const TransformMatrix& mtr)
-{
-    TransformMatrix cur_place ({ {this->x, this->y, this->z, 1} });
-    TransformMatrix new_place = cur_place * mtr;
-
-    this->x = new_place.get(0, 0);
-    this->y = new_place.get(0, 1);
-    this->z = new_place.get(0, 2);
-}
-
 My_Point My_Point::get_abs_point(const My_Point& center) { return (*this) + center; }

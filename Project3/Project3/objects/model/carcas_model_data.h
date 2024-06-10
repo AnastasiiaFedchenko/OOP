@@ -23,8 +23,8 @@ public:
 
     void move_points_to_origin(const My_Point& center);
     void move_points_to_center(const My_Point& center);
-    void transform_points(const TransformMatrix& mtr);
-    void transform(const TransformMatrix& mtr, const My_Point& center);
+    void transform_points(Transform& mtr);
+    void transform(Transform& mtr, const My_Point& center);
 
 private:
     My_Point center_p;

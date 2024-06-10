@@ -20,7 +20,6 @@ public:
     void execute(BaseCommand& command)
     {
         command.set_managers(draw_manager, scene_manager, load_manager);
-        //draw_manager->set_camera(scene_manager->get_main_camera());
         command.execute();
     }
 

@@ -17,6 +17,7 @@ DrawAll::DrawAll(const DrawAll& visitor)
 
 void DrawAll::visit(CarcassModel& carcass)
 {
+    this->camera = camera;
     // carcas.accept(std::make_shared<DrawAll>(*this));
 
     auto points = carcass.data->get_points();
@@ -42,8 +43,3 @@ void DrawAll::visit(Camera& camera)
 {
     return;
 }
-
-/*void DrawAll::visit(CompositeObject& obj)
-{
-    obj.accept(std::make_shared<DrawAll>(*this));
-}*/

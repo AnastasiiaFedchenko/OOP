@@ -17,7 +17,7 @@ public:
         visitor->visit(*this);
     }
     virtual My_Point get_center() const override;
-    void transform(const TransformMatrix& mtr, const My_Point& center) override;
+    void transform(Transform& mtr, const My_Point& center) override;
     My_Point get_projection(const My_Point& point);
 private:
     std::shared_ptr<CameraData> data;

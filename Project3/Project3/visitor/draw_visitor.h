@@ -14,7 +14,7 @@ public:
     DrawVisitor(const DrawVisitor& visitor) = default;
     ~DrawVisitor() = default;
     
-    void set_camera(std::shared_ptr<Camera> camera) { camera = camera; }
+    void set_camera(std::shared_ptr<Camera> camera) { this->camera = camera; }
 
 protected:
     std::shared_ptr<AbstractFactory> factory;

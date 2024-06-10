@@ -4,6 +4,7 @@
 #include "../../objects/model/edge.h"
 #include <memory>
 #include <fstream>
+#include <vector>
 
 
 class FileReader : public BaseReader

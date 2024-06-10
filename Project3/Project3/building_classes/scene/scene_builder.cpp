@@ -3,10 +3,7 @@
 
 void SceneBuilder::build() { scene = std::make_shared<Scene>(); }
 
-
-void SceneBuilder::build_model(const std::shared_ptr<BaseModel>& model) { scene->add_model(model); }
-
-void SceneBuilder::build_camera(const std::shared_ptr<Camera>& camera) { scene->add_camera(camera); }
+void SceneBuilder::build_object(const std::shared_ptr<BaseObject>& obj) { scene->add_object(obj); }
 
 bool SceneBuilder::is_build() const { return nullptr != scene; }
 

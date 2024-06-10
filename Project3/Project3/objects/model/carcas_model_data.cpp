@@ -35,11 +35,7 @@ void CarcassModelData::move_points_to_origin(const My_Point& center)
 {
     My_Point diff = My_Point(0, 0, 0) - center;
 
-    TransformMatrix mtr{};
-    mtr = { { 1, 0, 0, 0 },
-            { 0, 1, 0, 0 },
-            { 0, 0, 1, 0 },
-            { diff.get_x(), diff.get_y(), diff.get_z(), 1 } };
+    TransformShift mtr(diff.get_x(), diff.get_y(), diff.get_z());
 
     this->transform_points(mtr);
     this->update_center();
@@ -49,26 +45,22 @@ void CarcassModelData::move_points_to_center(const My_Point& center)
 {
     My_Point diff = center - My_Point(0, 0, 0);
 
-    TransformMatrix mtr{};
-    mtr = { { 1, 0, 0, 0 },
-            { 0, 1, 0, 0 },
-            { 0, 0, 1, 0 },
-            { diff.get_x(), diff.get_y(), diff.get_z(), 1 } };
+    TransformShift mtr(diff.get_x(), diff.get_y(), diff.get_z());
 
     this->transform_points(mtr);
     this->update_center();
 }
 
-void CarcassModelData::transform_points(const TransformMatrix& mtr)
+void CarcassModelData::transform_points(Transform& mtr)
 {
     for (auto& p : points)
-        p.transform(mtr);
+        mtr.imply(p);
 }
 
-void CarcassModelData::transform(const TransformMatrix& mtr, const My_Point& center)
+void CarcassModelData::transform(Transform& mtr, const My_Point& center)
 {
-    this->update_center();
-    this->move_points_to_origin(center);
-    this->transform_points(mtr);
-    this->move_points_to_center(center);
+    update_center();
+    move_points_to_origin(center);
+    transform_points(mtr);
+    move_points_to_center(center);
 }

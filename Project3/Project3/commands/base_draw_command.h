@@ -31,9 +31,8 @@ class ClearSceneCommand : public BaseDrawCommand
     using Action = void(DrawManager::*)();
 
 public:
-    ClearSceneCommand(std::shared_ptr<BaseDrawer> drawer)
+    ClearSceneCommand()
     {
-        this->drawer = drawer;
         method = &DrawManager::clear_scene;
     }
     virtual void execute() override
@@ -42,6 +41,25 @@ public:
     }
 
 private:
-    std::shared_ptr<BaseDrawer> drawer;
     Action method;
+};
+
+class SetNewDrawingCameraCommand : public BaseDrawCommand
+{
+    using Action = void(DrawManager::*)(std::shared_ptr<Camera> camera);
+
+public:
+    SetNewDrawingCameraCommand(std::shared_ptr<Camera> camera)
+    {
+        this->camera = camera;
+        method = &DrawManager::set_camera;
+    }
+    virtual void execute() override
+    {
+        ((*draw_manager).*method)(camera);
+    }
+
+private:
+    Action method;
+    std::shared_ptr<Camera> camera;
 };

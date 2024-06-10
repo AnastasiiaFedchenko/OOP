@@ -135,7 +135,6 @@
     <ClCompile Include="objects\base_object.cpp" />
     <ClCompile Include="objects\camera\camera.cpp" />
     <ClCompile Include="objects\camera\camera_data.cpp" />
-    <ClCompile Include="objects\composite\composite.cpp" />
     <ClCompile Include="objects\model\carcas_model.cpp" />
     <ClCompile Include="objects\model\carcas_model_data.cpp" />
     <ClCompile Include="objects\model\edge.cpp" />
@@ -169,6 +168,7 @@
     <ClInclude Include="drawing_classes\drawer_solution.h" />
     <ClInclude Include="drawing_classes\win_forms_drawer.h" />
     <ClInclude Include="drawing_classes\win_forms_factory.h" />
+    <ClInclude Include="exceptions.h" />
     <ClInclude Include="facade.h" />
     <ClInclude Include="managers\base_managers.h" />
     <ClInclude Include="managers\draw_manager.h" />
@@ -183,7 +183,6 @@
     <ClInclude Include="objects\camera\camera.h" />
     <ClInclude Include="objects\camera\camera_data.h" />
     <ClInclude Include="objects\canvas.h" />
-    <ClInclude Include="objects\composite\composite.h" />
     <ClInclude Include="objects\model\base_model.h" />
     <ClInclude Include="objects\model\carcas_model.h" />
     <ClInclude Include="objects\model\carcas_model_data.h" />

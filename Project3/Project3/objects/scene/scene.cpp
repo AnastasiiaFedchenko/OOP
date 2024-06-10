@@ -1,62 +1,41 @@
 #include "scene.h"
 
-Scene::Scene() : models(new Composite), cameras(new Composite) { }
+Scene::Scene() : objects(std::map<std::size_t, std::shared_ptr<BaseObject>>()) { }
 
 std::size_t Scene::add_object(const std::shared_ptr<BaseObject>& object)
 {
-    if (object->is_visible())
-    {
-        models->add(object);
-    }
-    else
-    {
-        cameras->add(object);
-    }
+    objects[object->get_id()] = object;
     return object->get_id();
-}
-
-std::size_t Scene::add_model(const std::shared_ptr<BaseModel>& model)
-{
-    models->add(model);
-
-    return model->get_id();
-}
-
-std::size_t Scene::add_camera(const std::shared_ptr<Camera>& camera)
-{
-    cameras->add(camera);
-
-    return camera->get_id();
 }
 
 void Scene::delete_object(const std::size_t& id_object)
 {
-    if (models->remove(id_object) == false)
-        cameras->remove(id_object);
+    if (objects.count(id_object) == 0)
+    {
+        throw LoadException((std::string)"No object with such id");
+        return;
+    }
+    objects.erase(id_object);
 }
 
-void Scene::delete_model(const std::size_t &id_model)
+std::shared_ptr<BaseObject> Scene::get_object(const std::size_t& id)
 {
-    models->remove(id_model);
+    return objects[id];
 }
 
-void Scene::delete_camera(const std::size_t& id_camera)
+Scene::iterator Scene::begin()
 {
-    cameras->remove(id_camera);
+    return objects.begin();
 }
-
-std::shared_ptr<BaseObject> Scene::get_model(const std::size_t& id_model)
+Scene::iterator Scene::end()
 {
-    return models->get(id_model);
+    return objects.end();
 }
-
-std::shared_ptr<BaseObject> Scene::get_camera(const std::size_t& id_camera)
+Scene::const_iterator Scene::cbegin()
 {
-    return cameras->get(id_camera);
+    return objects.cbegin();
 }
-
-//std::shared_ptr<BaseObject> Scene::get_object(const std::size_t id) { return *get_object_iter(id); }
-
-std::shared_ptr<Composite> Scene::get_models() { return models; }
-
-std::shared_ptr<Composite> Scene::get_cameras() { return cameras; }
+Scene::const_iterator Scene::cend()
+{
+    return objects.cend();
+}

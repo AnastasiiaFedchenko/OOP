@@ -27,7 +27,7 @@ public:
     virtual My_Point get_center() const override;
     void add_point(My_Point p);
     void add_edge(Edge e);
-    virtual void transform(const TransformMatrix& mtr, const My_Point& center) override;
+    virtual void transform(Transform& mtr, const My_Point& center) override;
     bool is_visible() override { return true; }
 
 public:

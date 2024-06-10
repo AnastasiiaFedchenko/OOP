@@ -1,63 +1,39 @@
 #include "transform_matrix.h"
 
-TransformMatrix::TransformMatrix(std::size_t n, std::size_t m)
-{
-	for (std::size_t i = 0; i < n; i++)
-	{
-		std::vector<double> temp(m, 0);
-		this->matrix.push_back(temp);
-	}
-}
-
-TransformMatrix::TransformMatrix(const TransformMatrix& temp) { (*this) = temp; }
-
-TransformMatrix::TransformMatrix(std::vector<std::vector<double>> temp): matrix(temp){}
-
-TransformMatrix& TransformMatrix::operator =(std::initializer_list<std::initializer_list<double>> list)
-{
-	for (auto iter_i = list.begin(); iter_i != list.end(); iter_i++)
-	{
-		std::vector<double> temp;
-		for (auto iter_j = iter_i->begin(); iter_j != iter_i->end(); iter_j++)
-			temp.push_back(*iter_j);
-		this->matrix.push_back(temp);
-	}
-	return (*this);
-}
-
-TransformMatrix& TransformMatrix::operator=(const TransformMatrix& temp)
+Transform& Transform::operator=(const Transform& temp)
 {
 	this->matrix = temp.matrix;
-	//(*this) = temp;
 	return *this; 
 }
 
-TransformMatrix& TransformMatrix::operator=(TransformMatrix&& temp)
+Transform& Transform::operator=(Transform&& temp)
 {
 	(*this) = temp;
 	return *this;
 }
 
-TransformMatrix TransformMatrix::operator *(const TransformMatrix& temp)
+std::vector<std::vector<double>> Transform::mul(const std::vector<std::vector<double>>& temp1, 
+	const std::vector<std::vector<double>>& temp2)
 {
-	TransformMatrix res(this->get_n(), temp.get_m());
-	for (std::size_t i = 0; i < this->matrix.size(); i++)
+	std::vector<std::vector<double>>  res;
+	for (std::size_t i = 0; i < temp1.size(); i++)
 	{
-		for (size_t k = 0; k < temp.get_m(); k++)
+		std::vector<double> line;
+		for (size_t k = 0; k < temp2[0].size(); k++)
 		{
 			double sum = 0;
-			for (int t = 0; t < this->get_m(); t++)
-				sum += (*this).get(i, t) * temp.get(t, k);
-			res.set(i, k, sum);
+			for (int t = 0; t < temp1[0].size(); t++)
+				sum += temp1[i][t] * temp2[t][k];
+			line.push_back(sum);
 		}
+		res.push_back(line);
 	}
 	return res;
 }
 
-double TransformMatrix::get(std::size_t i, std::size_t j) const { return matrix[i][j]; }
-
-void TransformMatrix::set(std::size_t i, std::size_t j, double value) { matrix[i][j] = value; }
-
-std::size_t TransformMatrix::get_n() const { return matrix.size(); }
-
-std::size_t TransformMatrix::get_m() const { return matrix[0].size(); }
+void Transform::imply(My_Point& p)
+{
+	std::vector<std::vector<double>> cur_place = { {p.get_x(), p.get_y(), p.get_z(), 1} };
+	std::vector<std::vector<double>> new_place = mul(cur_place, matrix);
+	p = My_Point(new_place[0][0], new_place[0][1], new_place[0][2]);
+}

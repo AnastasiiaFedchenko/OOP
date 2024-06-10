@@ -5,43 +5,40 @@ class BaseSceneCommand : public BaseCommand {};
 
 class ShiftCommand : public BaseSceneCommand
 {
-    using Action = void(SceneManager::*)(std::vector<std::size_t>& models, std::vector<std::size_t>& cameras,
+    using Action = void(SceneManager::*)(std::vector<std::size_t>& objects,
         const double dx, const double dy, const double dz);
 
 public:
-    ShiftCommand(std::vector<std::size_t>& models, std::vector<std::size_t>& cameras,
+    ShiftCommand(std::vector<std::size_t>& objects,
         const double dx, const double dy, const double dz)
     {
-        this->models = models;
-        this->cameras = cameras;
+        this->objects = objects;
         this->dx = dx;
         this->dy = dy;
         this->dz = dz;
-        method = &SceneManager::move_objects;
+        method = &SceneManager::shift_objects;
     }
     virtual void execute() override
     {
-        ((*scene_manager).*method)(models, cameras, dx, dy, dz);
+        ((*scene_manager).*method)(objects, dx, dy, dz);
     }
 
 private:
-    std::vector<std::size_t> models;
-    std::vector<std::size_t> cameras;
+    std::vector<std::size_t> objects;
     double dx, dy, dz;
     Action method;
 };
 
 class ScaleCommand : public BaseSceneCommand
 {
-    using Action = void(SceneManager::*)(std::vector<std::size_t>& models, std::vector<std::size_t>& cameras,
+    using Action = void(SceneManager::*)(std::vector<std::size_t>& objects,
         const double kx, const double ky, const double kz);
 
 public:
-    ScaleCommand(std::vector<std::size_t>& models, std::vector<std::size_t>& cameras,
+    ScaleCommand(std::vector<std::size_t>& objects,
         const double kx, const double ky, const double kz)
     {
-        this->models = models;
-        this->cameras = cameras;
+        this->objects = objects;
         this->kx = kx;
         this->ky = ky;
         this->kz = kz;
@@ -49,27 +46,25 @@ public:
     }
     virtual void execute() override
     {
-        ((*scene_manager).*method)(models, cameras, kx, ky, kz);
+        ((*scene_manager).*method)(objects, kx, ky, kz);
     }
 
 private:
-    std::vector<std::size_t> models;
-    std::vector<std::size_t> cameras;
+    std::vector<std::size_t> objects;
     double kx, ky, kz;
     Action method;
 };
 
 class RotateCommand : public BaseSceneCommand
 {
-    using Action = void(SceneManager::*)(std::vector<std::size_t>& models, std::vector<std::size_t>& cameras,
+    using Action = void(SceneManager::*)(std::vector<std::size_t>& objects,
         const double ang_x, const double ang_y, const double ang_z);
 
 public:
-    RotateCommand(std::vector<std::size_t>& models, std::vector<std::size_t>& cameras,
+    RotateCommand(std::vector<std::size_t>& objects,
         const double ang_x, const double ang_y, const double ang_z)
     {
-        this->models = models;
-        this->cameras = cameras;
+        this->objects = objects;
         this->ang_x = ang_x;
         this->ang_y = ang_y;
         this->ang_z = ang_z;
@@ -77,12 +72,11 @@ public:
     }
     virtual void execute() override
     {
-        ((*scene_manager).*method)(models, cameras, ang_x, ang_y, ang_z);
+        ((*scene_manager).*method)(objects, ang_x, ang_y, ang_z);
     }
 
 private:
-    std::vector<std::size_t> models;
-    std::vector<std::size_t> cameras;
+    std::vector<std::size_t> objects;
     double ang_x, ang_y, ang_z;
     Action method;
 };
@@ -108,48 +102,6 @@ private:
     Action method;
 };
 
-class AddModelCommand : public BaseSceneCommand
-{
-    using Action = std::size_t(SceneManager::*)(std::shared_ptr<BaseModel>& object);
-
-public:
-    AddModelCommand(std::shared_ptr<BaseModel> object, std::shared_ptr<std::size_t> id) : id(id)
-    {
-        object = object;
-        method = &SceneManager::add_model;
-    }
-    virtual void execute() override
-    {
-        (*id) = ((*scene_manager).*method)(object);
-    }
-
-private:
-    std::shared_ptr<BaseModel> object;
-    std::shared_ptr<std::size_t> &id;
-    Action method;
-};
-
-class AddCameraCommand : public BaseSceneCommand
-{
-    using Action = std::size_t(SceneManager::*)(std::shared_ptr<Camera>& object);
-
-public:
-    AddCameraCommand(std::shared_ptr<Camera>& object, std::shared_ptr<std::size_t>& id) : id(id)
-    {
-        this->object = object;
-        method = &SceneManager::add_camera;
-    }
-    virtual void execute() override
-    {
-        (*id) = ((*scene_manager).*method)(object);
-    }
-
-private:
-    std::shared_ptr<Camera> object;
-    std::shared_ptr<std::size_t> &id;
-    Action method;
-};
-
 class DeleteObjectCommand : public BaseSceneCommand
 {
     using Action = void(SceneManager::*)(const std::size_t& id_object);
@@ -159,47 +111,6 @@ public:
     {
         this->id_object = id_object;
         method = &SceneManager::delete_object;
-    }
-    virtual void execute() override
-    {
-        ((*scene_manager).*method)(id_object);
-    }
-
-private:
-    std::size_t id_object;
-    Action method;
-};
-
-
-class DeleteModelCommand : public BaseSceneCommand
-{
-    using Action = void(SceneManager::*)(const std::size_t& id_object);
-
-public:
-    DeleteModelCommand(const std::size_t& id_object)
-    {
-        this->id_object = id_object;
-        method = &SceneManager::delete_model;
-    }
-    virtual void execute() override
-    {
-        ((*scene_manager).*method)(id_object);
-    }
-
-private:
-    std::size_t id_object;
-    Action method;
-};
-
-class DeleteCameraCommand : public BaseSceneCommand
-{
-    using Action = void(SceneManager::*)(const std::size_t& id_object);
-
-public:
-    DeleteCameraCommand(const std::size_t& id_object)
-    {
-        this->id_object = id_object;
-        method = &SceneManager::delete_camera;
     }
     virtual void execute() override
     {

@@ -16,6 +16,5 @@ public:
     void visit(BaseObject& obj) override;
     void visit(CarcassModel& carcass) override;
     void visit(Camera& camera) override;
-    //void visit(CompositeObject& composite) override;
 };
 

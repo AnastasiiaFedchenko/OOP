@@ -21,7 +21,7 @@ void CarcassModel::add_edge(Edge e)
 {
     this->data->add_edge(e);
 }
-void CarcassModel::transform(const TransformMatrix& mtr, const My_Point& center_p)
+void CarcassModel::transform(Transform& mtr, const My_Point& center_p)
 {
     data->transform(mtr, center_p);
 }

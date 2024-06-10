@@ -1,5 +1,6 @@
 #pragma once
-#include "../../matrix/transform_matrix.h"
+//#include "../../matrix/transform_matrix.h"
+//class Transform;
 
 class My_Point
 {
@@ -35,7 +36,7 @@ public:
 
     My_Point get_abs_point(const My_Point& center);
 
-    void transform(const TransformMatrix& mtr);
+    //void transform(Transform& mtr);
 
 private:
     double x;
